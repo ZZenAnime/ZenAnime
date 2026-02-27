@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Zen Anime</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg1:#0f0c29;--bg2:#1a1a3e;--accent:#7c5cbf;--accent2:#4ecdc4;--glass:rgba(255,255,255,0.06);--glass2:rgba(255,255,255,0.12);--border:rgba(255,255,255,0.1);--text:#f0eeff;--text2:rgba(240,238,255,0.6);--danger:#ff5555}
+[data-theme="dark"]{--bg1:#0a0a0f;--bg2:#111118;--accent:#9d4edd}
+[data-theme="light"]{--bg1:#f0f0f7;--bg2:#e4e4f0;--glass:rgba(0,0,0,0.05);--glass2:rgba(0,0,0,0.1);--border:rgba(0,0,0,0.1);--text:#1a1a2e;--text2:rgba(20,20,40,0.55)}
+[data-theme="blue"]{--bg1:#020b18;--bg2:#051525;--accent:#00c8ff}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,var(--bg1) 0%,var(--bg2) 100%);min-height:100vh;color:var(--text);padding-bottom:80px}
+.header{background:rgba(15,12,41,0.88);backdrop-filter:blur(20px);padding:12px 0;position:sticky;top:0;z-index:100;border-bottom:1px solid var(--border)}
+.nav{max-width:1400px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:0 16px;gap:10px;flex-wrap:wrap}
+.logo{font-size:22px;font-weight:900;background:linear-gradient(90deg,#a78bfa,#4ecdc4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap}
+.menu{display:flex;gap:4px;list-style:none;flex-wrap:wrap}
+.menu a{color:var(--text2);text-decoration:none;padding:7px 13px;border-radius:12px;transition:all .2s;font-weight:700;font-size:13px;display:block}
+.menu a:hover,.menu a.active{background:var(--glass2);color:var(--text)}
+.menu a.active{color:#a78bfa}
+.user-controls{display:flex;gap:8px;align-items:center;font-size:13px}
+.search-container{max-width:1400px;margin:12px auto;padding:0 16px}
+.search-box{position:relative}
+.search-box input{width:100%;padding:11px 50px 11px 16px;border:1px solid var(--border);border-radius:50px;background:var(--glass);backdrop-filter:blur(10px);color:var(--text);font-size:14px;font-family:inherit}
+.search-box input::placeholder{color:var(--text2)}
+.search-box input:focus{outline:none;border-color:var(--accent)}
+.search-box button{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;padding:7px 14px;border-radius:20px;color:white;cursor:pointer;font-size:14px}
+.search-results{margin-top:8px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;max-height:280px;overflow-y:auto;z-index:200;position:relative}
+.search-result-item{padding:11px 16px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .2s;font-size:14px}
+.search-result-item:hover{background:var(--glass2)}
+.container{max-width:1400px;margin:16px auto;padding:0 16px}
+.card{background:var(--glass);border:1px solid var(--border);border-radius:20px;padding:20px;margin-bottom:16px;backdrop-filter:blur(10px)}
+h2{margin-bottom:14px;font-size:20px;font-weight:800}
+h3{margin-bottom:10px;font-size:17px;font-weight:700}
+.form-group{margin-bottom:14px}
+label{display:block;margin-bottom:5px;font-weight:700;font-size:13px;color:var(--text2)}
+input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:var(--glass);color:var(--text);font-size:14px;font-family:inherit;transition:all .2s}
+input::placeholder,textarea::placeholder{color:var(--text2)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);background:var(--glass2)}
+select option{background:#1a1a3e;color:#fff}
+@keyframes btnPop{0%{transform:scale(1)}40%{transform:scale(0.88)}70%{transform:scale(1.1)}100%{transform:scale(1)}}
+@keyframes ripple{0%{transform:scale(0);opacity:.5}100%{transform:scale(4);opacity:0}}
+@keyframes favBeat{0%{transform:scale(1)}25%{transform:scale(0)}55%{transform:scale(1.6)}75%{transform:scale(0.85)}100%{transform:scale(1)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 20px;border:none;border-radius:50px;background:linear-gradient(135deg,var(--accent),#9d77ef);color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;position:relative;overflow:hidden;transition:opacity .15s}
+.btn:hover{opacity:.85}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.pop{animation:btnPop .3s cubic-bezier(.36,.07,.19,.97) both}
+.btn-ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,0.3);width:30px;height:30px;margin-top:-15px;margin-left:-15px;animation:ripple .5s linear;pointer-events:none}
+.btn-small{padding:7px 14px;font-size:12px;border-radius:30px}
+.btn-danger{background:linear-gradient(135deg,var(--danger),#cc3333)}
+.btn-teal{background:linear-gradient(135deg,var(--accent2),#44a08d)}
+.btn-ghost{background:var(--glass);border:1px solid var(--border);color:var(--text)}
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:inline-block}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1a1a3e;border:1px solid var(--accent);color:var(--text);padding:12px 24px;border-radius:50px;font-weight:700;font-size:14px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+.series-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px;margin-top:14px}
+@media(min-width:640px){.series-grid{grid-template-columns:repeat(auto-fill,minmax(175px,1fr))}}
+@media(min-width:1024px){.series-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}}
+.series-card{background:var(--glass);border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;transition:all .25s}
+.series-card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 8px 24px rgba(124,92,191,.3)}
+.series-image{width:100%;height:180px;background:linear-gradient(135deg,#1a1240,#2d1b69);display:flex;align-items:center;justify-content:center;font-size:36px}
+.series-image img{width:100%;height:100%;object-fit:cover}
+.series-info{padding:10px 12px}
+.series-title{font-size:14px;font-weight:700;margin-bottom:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(max-width:480px){.series-image{height:145px}.series-title{font-size:13px}}
+.badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;margin:2px}
+.badge-cat{background:rgba(124,92,191,.35);color:#c4a6ff;border:1px solid rgba(124,92,191,.4)}
+.badge-age{background:rgba(255,85,85,.25);color:#ff9999;border:1px solid rgba(255,85,85,.3)}
+.badge-lang{background:rgba(78,205,196,.2);color:#7eeae4;border:1px solid rgba(78,205,196,.3);font-size:10px;padding:2px 7px}
+.ep-item{background:var(--glass2);border:1px solid var(--border);padding:12px 14px;margin:7px 0;border-radius:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ep-title{font-weight:700;font-size:14px;flex:1;min-width:100px}
+.ep-controls{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.fav-btn{background:none;border:none;font-size:20px;cursor:pointer;line-height:1;padding:2px;filter:grayscale(1);opacity:.45;transition:all .2s}
+.fav-btn:hover{opacity:.75;transform:scale(1.15)}
+.fav-btn.active{filter:none;opacity:1}
+.fav-btn.beat{animation:favBeat .4s cubic-bezier(.36,.07,.19,.97) both}
+.lang-tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.lang-tab{padding:7px 16px;border:1px solid var(--border);border-radius:30px;background:var(--glass);color:var(--text2);cursor:pointer;transition:all .2s;font-weight:700;font-size:13px;font-family:inherit}
+.lang-tab.active{background:linear-gradient(135deg,var(--accent),#9d77ef);border-color:transparent;color:white}
+.lang-tab:hover:not(.active){background:var(--glass2);color:var(--text)}
+.lang-panel{display:none}
+.lang-panel.active{display:block}
+.staff-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;border-bottom:1px solid var(--border);padding-bottom:14px}
+.staff-tab{padding:8px 18px;border:1px solid var(--border);border-radius:12px;background:var(--glass);color:var(--text2);cursor:pointer;font-weight:700;font-size:13px;font-family:inherit;transition:all .2s}
+.staff-tab.active{background:linear-gradient(135deg,var(--accent),#9d77ef);border-color:transparent;color:white}
+.staff-tab:hover:not(.active){background:var(--glass2);color:var(--text)}
+.staff-panel{display:none}
+.staff-panel.active{display:block}
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.75);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;z-index:1000;overflow-y:auto;padding:20px}
+.modal-card{max-width:440px;width:100%;position:relative;background:var(--bg2);border:1px solid var(--border);border-radius:24px;padding:28px 24px}
+.close-modal{position:absolute;top:14px;right:14px;background:var(--glass2);border:none;color:var(--text);font-size:20px;width:34px;height:34px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.close-modal:hover{background:var(--glass);transform:rotate(90deg)}
+.video-player{width:100%;height:220px;border-radius:14px;border:none;margin-top:12px}
+@media(min-width:640px){.video-player{height:380px}}
+@media(min-width:1024px){.video-player{height:500px}}
+.anime-header{width:100%;height:180px;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,#1a1240,#2d1b69);display:flex;align-items:center;justify-content:center;font-size:48px;margin-bottom:14px}
+@media(min-width:640px){.anime-header{height:250px}}
+.anime-header img{width:100%;height:100%;object-fit:cover}
+.event-card{padding:14px;margin:8px 0;border-radius:12px;border-left:4px solid var(--accent);background:var(--glass)}
+.event-card.today{border-left-color:var(--accent2)}
+.event-card.past{opacity:.5;border-left-color:#555}
+.event-title{font-weight:700;font-size:15px}
+.event-date{font-size:12px;color:var(--text2);margin-top:4px}
+.event-desc{font-size:13px;margin-top:6px}
+.section{animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.hidden{display:none !important}
+.divider{border:none;border-top:1px solid var(--border);margin:20px 0}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.row-between{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.txt-muted{color:var(--text2);font-size:13px}
+.series-meta{display:flex;flex-wrap:wrap;gap:2px;margin-top:6px}
+.guest-banner{background:linear-gradient(135deg,rgba(255,184,108,.2),rgba(255,85,85,.2));border:1px solid rgba(255,184,108,.3);padding:16px;border-radius:16px;margin-bottom:16px;text-align:center}
+.hist-item{background:var(--glass);border:1px solid var(--border);padding:8px 14px;margin:6px 0;border-radius:10px;font-size:13px}
+.file-label{display:block;padding:11px;background:var(--glass);border:1px dashed var(--border);border-radius:12px;cursor:pointer;text-align:center;font-size:14px;color:var(--text2);transition:all .2s}
+.file-label:hover{background:var(--glass2);border-color:var(--accent);color:var(--text)}
+.img-preview{width:100%;max-height:180px;object-fit:cover;border-radius:10px;margin-top:8px;display:none}
+.img-preview.show{display:block}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:10px}
+</style>
+</head>
+<body data-theme="default">
+
+<div id="toast" class="toast"></div>
+
+<header class="header">
+  <nav class="nav">
+    <div class="logo">🎬 Zen Anime</div>
+    <ul class="menu">
+      <li><a href="#" class="active" onclick="showSection('home');return false">Accueil</a></li>
+      <li><a href="#" onclick="showSection('calendar');return false">Calendrier</a></li>
+      <li><a href="#" onclick="showSection('library');return false">Bibliothèque</a></li>
+      <li><a href="#" onclick="showSection('favorites');return false">Favoris</a></li>
+      <li><a href="#" onclick="showSection('settings');return false">Paramètres</a></li>
+    </ul>
+    <div class="user-controls">
+      <span id="usernameDisplay"></span>
+      <button class="btn btn-small btn-teal" onclick="showLoginModal()" id="loginHeaderBtn">Se connecter</button>
+      <button class="btn btn-small btn-ghost hidden" onclick="logout()" id="logoutBtn">Déconnexion</button>
+    </div>
+  </nav>
+</header>
+
+<div class="search-container">
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Rechercher un anime..." oninput="searchAnime()">
+    <button>🔍</button>
+  </div>
+  <div id="searchResults" class="search-results hidden"></div>
+</div>
+
+<div class="container">
+
+  <!-- MODAL LOGIN -->
+  <div id="loginModal" class="modal hidden">
+    <div class="modal-card">
+      <button class="close-modal" onclick="closeLoginModal()">×</button>
+      <h2>👋 Bienvenue</h2>
+      <div id="loginForm">
+        <p class="txt-muted" style="margin-bottom:14px">Connectez-vous pour synchroniser vos favoris sur tous vos appareils ☁️</p>
+        <div class="form-group"><label>Pseudo</label><input type="text" id="loginUsername" placeholder="Votre pseudo"></div>
+        <div class="form-group"><label>Mot de passe</label><input type="password" id="loginPassword" placeholder="Votre mot de passe"></div>
+        <div class="row">
+          <button class="btn" id="loginBtn" onclick="login()">Se connecter</button>
+          <button class="btn btn-ghost" onclick="showRegister()">Créer un compte</button>
+        </div>
+      </div>
+      <div id="registerForm" class="hidden">
+        <p class="txt-muted" style="margin-bottom:14px">Créez un compte pour sauvegarder vos favoris en ligne ☁️</p>
+        <div class="form-group"><label>Pseudo</label><input type="text" id="registerUsername" placeholder="Choisir un pseudo"></div>
+        <div class="form-group"><label>Mot de passe (min 6 caractères)</label><input type="password" id="registerPassword" placeholder="Choisir un mot de passe"></div>
+        <div class="row">
+          <button class="btn" id="registerBtn" onclick="register()">S'inscrire</button>
+          <button class="btn btn-ghost" onclick="showLogin()">Retour</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL STAFF -->
+  <div id="staffModal" class="modal hidden">
+    <div class="modal-card">
+      <button class="close-modal" onclick="closeStaffModal()">×</button>
+      <h2>🔐 Accès Staff</h2>
+      <div class="form-group"><label>Code d'accès</label><input type="password" id="staffCode" placeholder="Entrez le code staff"></div>
+      <button class="btn" onclick="verifyStaffCode()">Valider</button>
+    </div>
+  </div>
+
+  <!-- ACCUEIL -->
+  <div id="home" class="section">
+    <div id="guestBanner" class="guest-banner hidden">
+      <h3>👋 Mode Invité</h3>
+      <p style="margin:8px 0">Connectez-vous pour sauvegarder vos favoris sur tous vos appareils !</p>
+      <button class="btn btn-small" onclick="showLoginModal()">Se connecter</button>
+    </div>
+    <div class="card">
+      <h2>🌟 Bienvenue sur Zen Anime</h2>
+      <p class="txt-muted">Votre plateforme de streaming d'animes préférés !</p>
+    </div>
+    <div class="card">
+      <h2>📺 Animes Disponibles</h2>
+      <div id="recentSeries" class="series-grid"></div>
+    </div>
+  </div>
+
+  <!-- CALENDRIER -->
+  <div id="calendar" class="section hidden">
+    <div class="card">
+      <h2>📅 Calendrier des Sorties</h2>
+      <div id="calendarContent"></div>
+    </div>
+  </div>
+
+  <!-- PANEL STAFF -->
+  <div id="add" class="section hidden">
+    <div class="card">
+      <h2>👨‍💼 Panel Staff</h2>
+      <div class="staff-tabs">
+        <button class="staff-tab active" onclick="switchStaffTab('tab-add-series',this)">➕ Ajouter série</button>
+        <button class="staff-tab" onclick="switchStaffTab('tab-add-ep',this)">📹 Ajouter épisode</button>
+        <button class="staff-tab" onclick="switchStaffTab('tab-manage',this)">🗂️ Gérer</button>
+        <button class="staff-tab" onclick="switchStaffTab('tab-calendar',this)">📅 Calendrier</button>
+      </div>
+
+      <div id="tab-add-series" class="staff-panel active">
+        <h3>Créer une nouvelle série</h3>
+        <div class="form-group"><label>Nom de la série</label><input type="text" id="seriesName" placeholder="Ex: Mushoku Tensei"></div>
+        <div class="form-group">
+          <label>Catégorie</label>
+          <select id="seriesCategory">
+            <option value="">-- Sélectionner --</option>
+            <option value="romance">Romance</option><option value="action">Action</option>
+            <option value="isekai">Isekai</option><option value="horror">Horror</option>
+            <option value="comedy">Comédie</option><option value="drama">Drama</option>
+            <option value="fantasy">Fantasy</option><option value="scifi">Sci-Fi</option>
+            <option value="slice">Slice of Life</option><option value="sport">Sport</option>
+            <option value="mecha">Mecha</option><option value="mystery">Mystère</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Âge recommandé</label>
+          <select id="seriesAge">
+            <option value="">-- Sélectionner --</option>
+            <option>Tout public</option><option>7+</option><option>13+</option><option>16+</option><option>18+</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Image de couverture</label>
+          <input type="file" id="seriesImageFile" accept="image/*" style="display:none" onchange="handleImageUpload(event)">
+          <label for="seriesImageFile" class="file-label">📁 Choisir une image</label>
+          <div id="fileName" class="txt-muted" style="margin-top:5px;font-size:12px"></div>
+          <img id="imagePreview" class="img-preview" alt="Aperçu">
+        </div>
+        <button class="btn" onclick="addSeries()">✅ Créer la série</button>
+      </div>
+
+      <div id="tab-add-ep" class="staff-panel">
+        <h3>Ajouter un épisode</h3>
+        <div class="form-group"><label>Série</label><select id="selectSeries"></select></div>
+        <div class="form-group">
+          <label>Type</label>
+          <select id="contentType" onchange="updateContentFields()">
+            <option value="season">Saison</option><option value="film">Film</option><option value="miniseason">Mini-saison</option>
+          </select>
+        </div>
+        <div class="form-group" id="seasonField"><label>Numéro de saison</label><input type="number" id="seasonNumber" min="1" value="1"></div>
+        <div class="form-group"><label id="episodeLabel">Épisode</label><input type="number" id="episodeNumber" min="1" value="1"></div>
+        <div class="form-group">
+          <label>Langue</label>
+          <select id="language">
+            <option value="VOSTFR">VOSTFR</option><option value="VF">VF</option>
+            <option value="VO">VO</option><option value="VOSTA">VOSTA</option>
+          </select>
+        </div>
+        <div class="form-group"><label>URL vidéo ou code iframe</label><textarea id="videoUrl" rows="4" placeholder="https://video.sibnet.ru/... ou &lt;iframe ...&gt;"></textarea></div>
+        <button class="btn" onclick="addEpisode()">➕ Ajouter l'épisode</button>
+      </div>
+
+      <div id="tab-manage" class="staff-panel">
+        <h3>Gérer les séries et épisodes</h3>
+        <div class="form-group"><label>Série</label><select id="manageSelectSeries" onchange="loadSeasonsForManage()"></select></div>
+        <div id="manageSeriesActions" class="hidden" style="margin-bottom:14px">
+          <button class="btn btn-danger btn-small" onclick="deleteSeriesFromManage()">🗑️ Supprimer cette série</button>
+        </div>
+        <div class="form-group"><label>Saison</label><select id="manageSelectSeason" onchange="loadEpisodesForManage()"></select></div>
+        <div id="manageEpisodesList"></div>
+      </div>
+
+      <div id="tab-calendar" class="staff-panel">
+        <h3>📅 Créer un événement</h3>
+        <div class="form-group">
+          <label>Jour</label>
+          <select id="eventDay">
+            <option value="">-- Sélectionner --</option>
+            <option>Lundi</option><option>Mardi</option><option>Mercredi</option>
+            <option>Jeudi</option><option>Vendredi</option><option>Samedi</option><option>Dimanche</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Date</label><input type="date" id="eventDate"></div>
+        <div class="form-group"><label>Heure</label><input type="time" id="eventTime"></div>
+        <div class="form-group"><label>Titre</label><input type="text" id="eventTitle" placeholder="Ex: Sortie nouvel épisode"></div>
+        <div class="form-group"><label>Description</label><textarea id="eventDescription" rows="3" placeholder="Ex: Solo Leveling S2 EP5"></textarea></div>
+        <button class="btn" onclick="addCalendarEvent()">➕ Ajouter l'événement</button>
+        <hr class="divider">
+        <h3>Événements programmés</h3>
+        <div id="staffEventsList" style="max-height:350px;overflow-y:auto;margin-top:10px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BIBLIOTHEQUE -->
+  <div id="library" class="section hidden">
+    <div class="card">
+      <h2>📚 Bibliothèque</h2>
+      <div id="libraryContent" class="series-grid"></div>
+    </div>
+  </div>
+
+  <!-- FAVORIS -->
+  <div id="favorites" class="section hidden">
+    <div id="favGuestWarning" class="guest-banner hidden">
+      <h3>🔒 Connectez-vous</h3>
+      <p style="margin:8px 0">Connectez-vous pour voir vos favoris synchronisés.</p>
+      <button class="btn btn-small" onclick="showLoginModal()">Se connecter</button>
+    </div>
+    <div id="favContent" class="card hidden">
+      <h2>⭐ Mes Favoris</h2>
+      <div id="favoritesContent"></div>
+    </div>
+  </div>
+
+  <!-- PARAMÈTRES -->
+  <div id="settings" class="section hidden">
+    <div class="card">
+      <h2>⚙️ Paramètres</h2>
+      <div class="form-group">
+        <label>🎨 Thème</label>
+        <select id="themeSelect" onchange="changeTheme()">
+          <option value="default">Par défaut</option>
+          <option value="dark">Sombre</option>
+          <option value="light">Clair</option>
+          <option value="blue">Bleu</option>
+        </select>
+      </div>
+      <hr class="divider">
+      <h3>🔍 Historique de recherche</h3>
+      <div id="historyContent" style="margin-bottom:10px"></div>
+      <button class="btn btn-danger btn-small" onclick="clearHistory()">🗑️ Effacer l'historique</button>
+      <hr class="divider">
+      <h3>👤 Compte</h3>
+      <div id="settingsAccountArea"></div>
+      <hr class="divider">
+      <h3>👨‍💼 Panel Staff</h3>
+      <button class="btn btn-small" onclick="showStaffModal()">🔐 Accès Staff</button>
+    </div>
+  </div>
+
+  <!-- LECTEUR -->
+  <div id="player" class="section hidden">
+    <div class="card">
+      <button class="btn btn-ghost btn-small" onclick="showSection('library')" style="margin-bottom:14px">← Retour</button>
+      <div id="animeHeaderImage"></div>
+      <h2 id="playerTitle"></h2>
+      <div id="playerContent"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDPWdRd-R6r7K0JQ2CZANptgEtqUeVdNZ0",
+  authDomain: "zen-anime-f4e8b.firebaseapp.com",
+  projectId: "zen-anime-f4e8b",
+  storageBucket: "zen-anime-f4e8b.firebasestorage.app",
+  messagingSenderId: "52827170520",
+  appId: "1:52827170520:web:6f5a508b26738e15b5d9ad"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// ─── VARIABLES GLOBALES ───────────────────────────────────────────────
+const STAFF_CODE = "773475";
+let globalSeries = {};
+let currentUser = null;      // objet Firebase user
+let userFavorites = [];      // tableau d'IDs
+let searchHistory = [];
+let isStaff = false;
+let currentImageBase64 = null;
+let calendarEvents = [];
+
+// ─── TOAST ──────────────────────────────────────────────────────────
+function toast(msg, duration=2500) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), duration);
+}
+
+// ─── IMAGE ──────────────────────────────────────────────────────────
+window.handleImageUpload = function(e) {
+  const file = e.target.files[0];
+  if (!file) { currentImageBase64 = null; return; }
+  document.getElementById('fileName').textContent = '📷 ' + file.name;
+  const r = new FileReader();
+  r.onload = ev => {
+    currentImageBase64 = ev.target.result;
+    const p = document.getElementById('imagePreview');
+    p.src = currentImageBase64; p.classList.add('show');
+  };
+  r.readAsDataURL(file);
+};
+
+// ─── FIREBASE : AUTH ────────────────────────────────────────────────
+window.register = async function() {
+  const username = document.getElementById('registerUsername').value.trim();
+  const password = document.getElementById('registerPassword').value.trim();
+  if (!username || !password) { toast('❌ Remplissez tous les champs'); return; }
+  if (username.length < 3) { toast('❌ Pseudo trop court (min 3)'); return; }
+  if (password.length < 6) { toast('❌ Mot de passe trop court (min 6)'); return; }
+  const btn = document.getElementById('registerBtn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+  try {
+    const email = username.toLowerCase().replace(/\s/g,'_') + '@zenanime.app';
+    const cred = await createUserWithEmailAndPassword(auth, email, password);
+    await updateProfile(cred.user, { displayName: username });
+    // Créer document utilisateur
+    await setDoc(doc(db, 'users', cred.user.uid), { username, favorites: [], searchHistory: [], createdAt: Date.now() });
+    toast('✅ Compte créé !');
+    closeLoginModal();
+  } catch(err) {
+    const msgs = { 'auth/email-already-in-use': '❌ Ce pseudo est déjà pris', 'auth/weak-password': '❌ Mot de passe trop faible' };
+    toast(msgs[err.code] || '❌ ' + err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = "S'inscrire";
+  }
+};
+
+window.login = async function() {
+  const username = document.getElementById('loginUsername').value.trim();
+  const password = document.getElementById('loginPassword').value.trim();
+  if (!username || !password) { toast('❌ Remplissez tous les champs'); return; }
+  const btn = document.getElementById('loginBtn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+  try {
+    const email = username.toLowerCase().replace(/\s/g,'_') + '@zenanime.app';
+    await signInWithEmailAndPassword(auth, email, password);
+    toast('✅ Connecté !');
+    closeLoginModal();
+  } catch(err) {
+    const msgs = { 'auth/user-not-found':'❌ Compte introuvable','auth/wrong-password':'❌ Mot de passe incorrect','auth/invalid-credential':'❌ Pseudo ou mot de passe incorrect' };
+    toast(msgs[err.code] || '❌ Erreur de connexion');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Se connecter';
+  }
+};
+
+window.logout = async function() {
+  if (!confirm('Se déconnecter ?')) return;
+  await signOut(auth);
+  isStaff = false;
+  localStorage.removeItem('isStaff');
+  toast('👋 Déconnecté');
+};
+
+// ─── FIREBASE : onAuthStateChanged ──────────────────────────────────
+onAuthStateChanged(auth, async (user) => {
+  currentUser = user;
+  if (user) {
+    // Récupérer données utilisateur
+    const snap = await getDoc(doc(db, 'users', user.uid));
+    if (snap.exists()) {
+      const data = snap.data();
+      userFavorites = data.favorites || [];
+      searchHistory = data.searchHistory || [];
+    }
+    const displayName = user.displayName || user.email;
+    document.getElementById('usernameDisplay').textContent = '👤 ' + displayName;
+    document.getElementById('logoutBtn').classList.remove('hidden');
+    document.getElementById('loginHeaderBtn').classList.add('hidden');
+    document.getElementById('guestBanner').classList.add('hidden');
+  } else {
+    userFavorites = [];
+    searchHistory = JSON.parse(localStorage.getItem('searchHistory') || '[]');
+    document.getElementById('usernameDisplay').textContent = '';
+    document.getElementById('logoutBtn').classList.add('hidden');
+    document.getElementById('loginHeaderBtn').classList.remove('hidden');
+    document.getElementById('guestBanner').classList.remove('hidden');
+  }
+  // Charger séries depuis Firestore (global, pas lié à l'user)
+  await loadGlobalData();
+  updateUI();
+});
+
+// ─── FIREBASE : SAVE / LOAD USER ────────────────────────────────────
+async function saveUserData() {
+  if (!currentUser) {
+    localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+    return;
+  }
+  await setDoc(doc(db, 'users', currentUser.uid), {
+    username: currentUser.displayName,
+    favorites: userFavorites,
+    searchHistory: searchHistory,
+    updatedAt: Date.now()
+  }, { merge: true });
+}
+
+// ─── FIREBASE : DONNÉES GLOBALES (séries + calendrier) ──────────────
+async function loadGlobalData() {
+  try {
+    const snap = await getDoc(doc(db, 'global', 'data'));
+    if (snap.exists()) {
+      const d = snap.data();
+      globalSeries = d.series || {};
+      calendarEvents = d.calendarEvents || [];
+    }
+  } catch(e) {
+    // Fallback localStorage si offline
+    globalSeries = JSON.parse(localStorage.getItem('globalSeries') || '{}');
+    calendarEvents = JSON.parse(localStorage.getItem('calendarEvents') || '[]');
+  }
+}
+
+async function saveGlobalData() {
+  try {
+    await setDoc(doc(db, 'global', 'data'), {
+      series: globalSeries,
+      calendarEvents: calendarEvents,
+      updatedAt: Date.now()
+    });
+    // Backup local aussi
+    localStorage.setItem('globalSeries', JSON.stringify(globalSeries));
+    localStorage.setItem('calendarEvents', JSON.stringify(calendarEvents));
+  } catch(e) {
+    // Si offline, sauvegarde locale seulement
+    localStorage.setItem('globalSeries', JSON.stringify(globalSeries));
+    localStorage.setItem('calendarEvents', JSON.stringify(calendarEvents));
+    toast('⚠️ Sauvegarde locale uniquement (hors ligne ?)');
+  }
+}
+
+// ─── UI ─────────────────────────────────────────────────────────────
+function updateUI() {
+  displayRecent();
+  displayLibrary();
+  isStaff = localStorage.getItem('isStaff') === 'true';
+  const theme = localStorage.getItem('theme') || 'default';
+  document.body.setAttribute('data-theme', theme);
+  document.getElementById('themeSelect').value = theme;
+}
+
+// ─── MENU ────────────────────────────────────────────────────────────
+window.updateActiveMenu = function(s) {
+  document.querySelectorAll('.menu a').forEach(a => a.classList.remove('active'));
+  const el = document.querySelector(`.menu a[onclick*="'${s}'"]`);
+  if (el) el.classList.add('active');
+};
+
+// ─── STAFF TABS ──────────────────────────────────────────────────────
+window.switchStaffTab = function(id, btn) {
+  document.querySelectorAll('.staff-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.staff-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  if (id === 'tab-add-ep' || id === 'tab-manage') updateSeriesSelects();
+  if (id === 'tab-calendar') displayStaffEvents();
+};
+
+// ─── MODALS ──────────────────────────────────────────────────────────
+window.showLoginModal = function() { document.getElementById('loginModal').classList.remove('hidden'); };
+window.closeLoginModal = function() {
+  document.getElementById('loginModal').classList.add('hidden');
+  ['loginUsername','loginPassword','registerUsername','registerPassword'].forEach(id => document.getElementById(id).value = '');
+  showLogin();
+};
+window.showLogin = function() { document.getElementById('loginForm').classList.remove('hidden'); document.getElementById('registerForm').classList.add('hidden'); };
+window.showRegister = function() { document.getElementById('loginForm').classList.add('hidden'); document.getElementById('registerForm').classList.remove('hidden'); };
+window.showStaffModal = function() { document.getElementById('staffModal').classList.remove('hidden'); };
+window.closeStaffModal = function() { document.getElementById('staffModal').classList.add('hidden'); document.getElementById('staffCode').value = ''; };
+
+// ─── STAFF VERIFY ────────────────────────────────────────────────────
+window.verifyStaffCode = function() {
+  if (document.getElementById('staffCode').value.trim() === STAFF_CODE) {
+    isStaff = true;
+    localStorage.setItem('isStaff', 'true');
+    closeStaffModal();
+    toast('✅ Accès staff activé !');
+    updateSeriesSelects();
+    showSection('add');
+  } else {
+    toast('❌ Code incorrect');
+  }
+};
+
+// ─── SECTIONS ────────────────────────────────────────────────────────
+window.showSection = function(section) {
+  document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+  document.getElementById(section).classList.remove('hidden');
+  updateActiveMenu(section);
+  if (section === 'favorites') {
+    if (!currentUser) {
+      document.getElementById('favGuestWarning').classList.remove('hidden');
+      document.getElementById('favContent').classList.add('hidden');
+    } else {
+      document.getElementById('favGuestWarning').classList.add('hidden');
+      document.getElementById('favContent').classList.remove('hidden');
+      displayFavorites();
+    }
+  }
+  if (section === 'library') displayLibrary();
+  else if (section === 'home') displayRecent();
+  else if (section === 'calendar') displayCalendar();
+  else if (section === 'settings') displaySettings();
+  else if (section === 'add') {
+    if (!isStaff) { showStaffModal(); showSection('home'); return; }
+    updateSeriesSelects();
+  }
+};
+
+function displaySettings() {
+  const hc = document.getElementById('historyContent');
+  hc.innerHTML = searchHistory.length
+    ? searchHistory.map(q => `<div class="hist-item">🔍 ${q}</div>`).join('')
+    : '<p class="txt-muted">Aucun historique.</p>';
+  const ac = document.getElementById('settingsAccountArea');
+  if (currentUser) {
+    ac.innerHTML = `<p style="margin-bottom:10px">Connecté : <strong>👤 ${currentUser.displayName||currentUser.email}</strong>${isStaff ? ' <span class="badge badge-cat">Staff</span>' : ''}</p>
+    <p class="txt-muted" style="margin-bottom:10px">☁️ Vos favoris sont synchronisés sur tous vos appareils</p>
+    <button class="btn btn-danger btn-small" onclick="logout()">🚪 Se déconnecter</button>`;
+  } else {
+    ac.innerHTML = `<p class="txt-muted" style="margin-bottom:10px">Non connecté — vos favoris ne sont pas sauvegardés.</p>
+    <button class="btn btn-small" onclick="showLoginModal()">🔑 Se connecter</button>`;
+  }
+}
+
+window.clearHistory = async function() {
+  searchHistory = [];
+  await saveUserData();
+  displaySettings();
+};
+
+window.changeTheme = function() {
+  const t = document.getElementById('themeSelect').value;
+  document.body.setAttribute('data-theme', t);
+  localStorage.setItem('theme', t);
+};
+
+// ─── SEARCH ──────────────────────────────────────────────────────────
+window.searchAnime = async function() {
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  const res = document.getElementById('searchResults');
+  if (!q) { res.classList.add('hidden'); return; }
+  if (!searchHistory.includes(q)) {
+    searchHistory.unshift(q);
+    if (searchHistory.length > 20) searchHistory.pop();
+    await saveUserData();
+  }
+  const matches = Object.keys(globalSeries).filter(n => n.toLowerCase().includes(q));
+  if (!matches.length) { res.innerHTML = '<div class="search-result-item">Aucun résultat</div>'; res.classList.remove('hidden'); return; }
+  res.innerHTML = matches.map(n => `<div class="search-result-item" onclick="openFromSearch('${esc(n)}')">🎬 ${n}</div>`).join('');
+  res.classList.remove('hidden');
+};
+
+window.openFromSearch = function(name) {
+  document.getElementById('searchResults').classList.add('hidden');
+  document.getElementById('searchInput').value = '';
+  showSeriesSeasons(name);
+};
+
+// ─── HELPERS ─────────────────────────────────────────────────────────
+function esc(s) { return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
+function getCatLabel(c) {
+  return {romance:'Romance',action:'Action',isekai:'Isekai',horror:'Horror',comedy:'Comédie',drama:'Drama',fantasy:'Fantasy',scifi:'Sci-Fi',slice:'Slice of Life',sport:'Sport',mecha:'Mecha',mystery:'Mystère'}[c]||c;
+}
+
+// ─── LIBRARY ─────────────────────────────────────────────────────────
+function displayLibrary() {
+  const c = document.getElementById('libraryContent'); c.innerHTML = '';
+  const keys = Object.keys(globalSeries);
+  if (!keys.length) { c.innerHTML = '<p class="txt-muted" style="text-align:center;padding:20px">Aucune série.</p>'; return; }
+  keys.forEach(n => renderCard(c, n));
+}
+
+function displayRecent() {
+  const c = document.getElementById('recentSeries'); c.innerHTML = '';
+  const keys = Object.keys(globalSeries).slice(-12);
+  if (!keys.length) { c.innerHTML = '<p class="txt-muted" style="text-align:center;padding:20px">Aucune série.</p>'; return; }
+  keys.forEach(n => renderCard(c, n));
+}
+
+function renderCard(container, name) {
+  const s = globalSeries[name];
+  const sc = Object.keys(s.seasons||{}).filter(k => !isNaN(k)).length;
+  const d = document.createElement('div');
+  d.className = 'series-card';
+  d.onclick = () => showSeriesSeasons(name);
+  d.innerHTML = `<div class="series-image">${s.image ? `<img src="${s.image}" alt="${name}">` : '🎬'}</div>
+    <div class="series-info">
+      <div class="series-title">${name}</div>
+      <div class="series-meta">
+        ${s.category?`<span class="badge badge-cat">${getCatLabel(s.category)}</span>`:''}
+        ${s.age?`<span class="badge badge-age">${s.age}</span>`:''}
+      </div>
+      <div style="font-size:11px;color:var(--text2);margin-top:4px">${sc} saison(s)</div>
+    </div>`;
+  container.appendChild(d);
+}
+
+// ─── SÉRIES ──────────────────────────────────────────────────────────
+window.showSeriesSeasons = function(name) {
+  const s = globalSeries[name];
+  const seasons = s.seasons||{};
+  document.getElementById('animeHeaderImage').innerHTML = s.image
+    ? `<div class="anime-header"><img src="${s.image}" alt="${name}"></div>`
+    : `<div class="anime-header">🎬</div>`;
+  document.getElementById('playerTitle').innerHTML = `<div>${name}</div>
+    <div class="series-meta" style="margin-top:8px">
+      ${s.category?`<span class="badge badge-cat">${getCatLabel(s.category)}</span>`:''}
+      ${s.age?`<span class="badge badge-age">${s.age}</span>`:''}
+    </div>`;
+  const allKeys = Object.keys(seasons);
+  const films = allKeys.filter(k=>k==='FILM');
+  const regs = allKeys.filter(k=>!isNaN(k)&&Array.isArray(seasons[k])).sort((a,b)=>parseInt(a)-parseInt(b));
+  const minis = allKeys.filter(k=>k.startsWith('MINI-')).sort();
+  let html = '<div class="row" style="margin-bottom:16px">';
+  films.forEach(k => html += `<button class="btn btn-small" onclick="showEpisodes('${esc(name)}','${k}')">🎬 Films</button>`);
+  regs.forEach(sv => html += `<button class="btn btn-small" onclick="showEpisodes('${esc(name)}','${sv}')">Saison ${sv}</button>`);
+  minis.forEach(k => html += `<button class="btn btn-small" onclick="showEpisodes('${esc(name)}','${k}')">Mini-saison ${k.replace('MINI-','')}</button>`);
+  html += '</div>';
+  document.getElementById('playerContent').innerHTML = html;
+  showSection('player');
+};
+
+window.showEpisodes = function(seriesName, season) {
+  const s = globalSeries[seriesName];
+  const episodes = (s.seasons||{})[season]||[];
+  document.getElementById('animeHeaderImage').innerHTML = s.image
+    ? `<div class="anime-header"><img src="${s.image}" alt="${seriesName}"></div>`
+    : `<div class="anime-header">🎬</div>`;
+  const seasonLabel = season==='FILM'?'Films':season.startsWith('MINI-')?`Mini-saison ${season.replace('MINI-','')}`:`Saison ${season}`;
+  document.getElementById('playerTitle').innerHTML = `<div>${seriesName} — ${seasonLabel}</div>`;
+  const byLang = {};
+  episodes.forEach(ep => { if (!byLang[ep.language]) byLang[ep.language]=[]; byLang[ep.language].push(ep); });
+  const langs = Object.keys(byLang);
+  let html = `<button class="btn btn-ghost btn-small" style="margin-bottom:12px" onclick="showSeriesSeasons('${esc(seriesName)}')">← Saisons</button>`;
+  if (!langs.length) { html += '<p class="txt-muted">Aucun épisode.</p>'; document.getElementById('playerContent').innerHTML = html; return; }
+  html += '<div class="lang-tabs">';
+  langs.forEach((lang, i) => html += `<button class="lang-tab ${i===0?'active':''}" onclick="switchLangTab(event,'ep-lang-${lang}')">${lang}</button>`);
+  html += '</div>';
+  langs.forEach((lang, li) => {
+    html += `<div class="lang-panel ${li===0?'active':''}" id="ep-lang-${lang}">`;
+    byLang[lang].forEach((ep, idx) => {
+      const isFav = userFavorites.some(f => String(f)===String(ep.id));
+      const epLabel = season==='FILM'?`Film ${ep.episode}`:`Épisode ${ep.episode}`;
+      html += `<div class="ep-item">
+        <div class="ep-title">${epLabel}</div>
+        <div class="ep-controls">
+          ${idx>0?`<button class="btn btn-teal btn-small" onclick="playEp('${esc(seriesName)}','${season}','${lang}',${idx-1})">◀</button>`:''}
+          <button class="btn btn-small" onclick="playEp('${esc(seriesName)}','${season}','${lang}',${idx})">▶ Regarder</button>
+          ${idx<byLang[lang].length-1?`<button class="btn btn-teal btn-small" onclick="playEp('${esc(seriesName)}','${season}','${lang}',${idx+1})">▶▶</button>`:''}
+          ${currentUser?`<button class="fav-btn ${isFav?'active':''}" onclick="toggleFav(${ep.id},this)" title="Favori">❤️</button>`:''}
+          ${isStaff?`<button class="btn btn-danger btn-small" onclick="deleteEpisode('${esc(seriesName)}','${season}',${ep.id})">🗑️</button>`:''}
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+  });
+  document.getElementById('playerContent').innerHTML = html;
+};
+
+window.switchLangTab = function(e, panelId) {
+  document.querySelectorAll('.lang-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.lang-panel').forEach(p => p.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+};
+
+window.playEp = function(seriesName, season, language, idx) {
+  const s = globalSeries[seriesName];
+  const eps = ((s.seasons||{})[season]||[]).filter(e=>e.language===language);
+  const ep = eps[idx]; if (!ep) return;
+  let videoHtml;
+  if (ep.url.includes('<iframe')) {
+    videoHtml = ep.url.replace(/class="[^"]*"/g,'').replace('<iframe','<iframe class="video-player"');
+  } else {
+    const m = ep.url.match(/video(\d+)/);
+    videoHtml = m
+      ? `<iframe class="video-player" src="https://video.sibnet.ru/shell.php?videoid=${m[1]}" frameborder="0" scrolling="no" allowfullscreen></iframe>`
+      : `<iframe class="video-player" src="${ep.url}" frameborder="0" allowfullscreen></iframe>`;
+  }
+  const isFav = userFavorites.some(f => String(f)===String(ep.id));
+  const epLabel = season==='FILM'?`Film ${ep.episode}`:`Épisode ${ep.episode}`;
+  let ctrl = `<div class="row" style="margin-top:12px">
+    <button class="btn btn-ghost btn-small" onclick="showEpisodes('${esc(seriesName)}','${season}')">← Liste</button>
+    ${idx>0?`<button class="btn btn-teal btn-small" onclick="playEp('${esc(seriesName)}','${season}','${language}',${idx-1})">◀ Précédent</button>`:''}
+    ${idx<eps.length-1?`<button class="btn btn-teal btn-small" onclick="playEp('${esc(seriesName)}','${season}','${language}',${idx+1})">Suivant ▶</button>`:''}
+    ${currentUser?`<button class="fav-btn ${isFav?'active':''}" onclick="toggleFav(${ep.id},this)" title="Favori">❤️</button>`:''}
+  </div>`;
+  document.getElementById('playerContent').innerHTML =
+    `<div style="font-weight:700;margin-bottom:8px">${epLabel} <span class="badge badge-lang">${language}</span></div>${videoHtml}${ctrl}`;
+};
+
+// ─── FAVORIS ─────────────────────────────────────────────────────────
+window.toggleFav = async function(episodeId, btn) {
+  if (!currentUser) { showLoginModal(); return; }
+  btn.classList.remove('beat');
+  void btn.offsetWidth;
+  btn.classList.add('beat');
+  btn.addEventListener('animationend', () => btn.classList.remove('beat'), {once:true});
+  const idx = userFavorites.findIndex(f => String(f)===String(episodeId));
+  if (idx > -1) {
+    userFavorites.splice(idx, 1);
+    btn.classList.remove('active');
+    toast('💔 Retiré des favoris');
+  } else {
+    userFavorites.push(episodeId);
+    btn.classList.add('active');
+    toast('❤️ Ajouté aux favoris !');
+  }
+  await saveUserData();
+};
+
+function displayFavorites() {
+  const c = document.getElementById('favoritesContent');
+  if (!userFavorites.length) { c.innerHTML = '<p class="txt-muted">Aucun favori. Cliquez ❤️ sur un épisode !</p>'; return; }
+  let html = '', found = false;
+  Object.keys(globalSeries).forEach(name => {
+    Object.keys(globalSeries[name].seasons||{}).forEach(season => {
+      (globalSeries[name].seasons[season]||[]).forEach(ep => {
+        if (userFavorites.some(f => String(f)===String(ep.id))) {
+          found = true;
+          const label = season==='FILM'?`Film ${ep.episode}`:`S${season}E${ep.episode}`;
+          html += `<div class="ep-item">
+            <div class="ep-title">${name} — ${label} <span class="badge badge-lang">${ep.language}</span></div>
+            <div class="ep-controls">
+              <button class="btn btn-small" onclick="playFavById(${ep.id})">▶ Regarder</button>
+              <button class="fav-btn active" onclick="toggleFav(${ep.id},this).then(()=>displayFavorites())" title="Retirer">❤️</button>
+            </div>
+          </div>`;
+        }
+      });
+    });
+  });
+  c.innerHTML = found ? html : '<p class="txt-muted">Favoris non disponibles.</p>';
+}
+
+window.playFavById = function(epId) {
+  for (const name in globalSeries) {
+    for (const season in globalSeries[name].seasons||{}) {
+      const ep = (globalSeries[name].seasons[season]||[]).find(e => String(e.id)===String(epId));
+      if (ep) {
+        const lang = ep.language;
+        const eps = globalSeries[name].seasons[season].filter(e => e.language===lang);
+        const idx = eps.findIndex(e => String(e.id)===String(epId));
+        const s = globalSeries[name];
+        document.getElementById('animeHeaderImage').innerHTML = s.image ? `<div class="anime-header"><img src="${s.image}" alt="${name}"></div>` : `<div class="anime-header">🎬</div>`;
+        document.getElementById('playerTitle').textContent = name;
+        showSection('player');
+        setTimeout(() => playEp(name, season, lang, idx), 50);
+        return;
+      }
+    }
+  }
+};
+
+// ─── STAFF : SÉRIES ──────────────────────────────────────────────────
+window.addSeries = async function() {
+  if (!isStaff) return;
+  const name = document.getElementById('seriesName').value.trim();
+  const cat = document.getElementById('seriesCategory').value;
+  const age = document.getElementById('seriesAge').value;
+  if (!name) { toast('❌ Entrez un nom'); return; }
+  if (!globalSeries[name]) {
+    globalSeries[name] = { image: currentImageBase64||'', category:cat, age, seasons:{} };
+  } else {
+    if (currentImageBase64) globalSeries[name].image = currentImageBase64;
+    if (cat) globalSeries[name].category = cat;
+    if (age) globalSeries[name].age = age;
+  }
+  await saveGlobalData();
+  updateSeriesSelects(); displayRecent(); displayLibrary();
+  toast(`✅ Série "${name}" créée !`);
+  ['seriesName','seriesCategory','seriesAge','seriesImageFile'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('fileName').textContent = '';
+  document.getElementById('imagePreview').classList.remove('show');
+  currentImageBase64 = null;
+};
+
+window.deleteSeriesFromManage = async function() {
+  if (!isStaff) return;
+  const name = document.getElementById('manageSelectSeries').value;
+  if (!name) { toast('❌ Sélectionnez une série'); return; }
+  if (confirm(`Supprimer "${name}" et TOUS ses épisodes ?`)) {
+    delete globalSeries[name];
+    await saveGlobalData();
+    updateSeriesSelects(); displayLibrary(); displayRecent();
+    document.getElementById('manageEpisodesList').innerHTML = '';
+    document.getElementById('manageSeriesActions').classList.add('hidden');
+    toast('✅ Série supprimée !');
+  }
+};
+
+function updateSeriesSelects() {
+  ['selectSeries','manageSelectSeries'].forEach(id => {
+    const sel = document.getElementById(id); if (!sel) return;
+    sel.innerHTML = '<option value="">-- Sélectionnez --</option>';
+    Object.keys(globalSeries).forEach(n => { const o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o); });
+  });
+}
+
+window.loadSeasonsForManage = function() {
+  const name = document.getElementById('manageSelectSeries').value;
+  const sel = document.getElementById('manageSelectSeason');
+  const act = document.getElementById('manageSeriesActions');
+  sel.innerHTML='<option value="">-- Sélectionnez --</option>';
+  document.getElementById('manageEpisodesList').innerHTML='';
+  if (!name) { act.classList.add('hidden'); return; }
+  act.classList.remove('hidden');
+  const seasons = globalSeries[name].seasons||{};
+  Object.keys(seasons).filter(k=>k==='FILM').forEach(k=>{const o=document.createElement('option');o.value=k;o.textContent='🎬 Films';sel.appendChild(o);});
+  Object.keys(seasons).filter(k=>!isNaN(k)&&Array.isArray(seasons[k])).sort((a,b)=>parseInt(a)-parseInt(b)).forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=`Saison ${s}`;sel.appendChild(o);});
+  Object.keys(seasons).filter(k=>k.startsWith('MINI-')).sort().forEach(k=>{const o=document.createElement('option');o.value=k;o.textContent=`Mini-saison ${k.replace('MINI-','')}`;sel.appendChild(o);});
+};
+
+window.loadEpisodesForManage = function() {
+  const name = document.getElementById('manageSelectSeries').value;
+  const season = document.getElementById('manageSelectSeason').value;
+  const c = document.getElementById('manageEpisodesList');
+  if (!name||!season) { c.innerHTML=''; return; }
+  const eps = (globalSeries[name].seasons||{})[season]||[];
+  if (!eps.length) { c.innerHTML='<p class="txt-muted" style="text-align:center;margin:16px 0">Aucun épisode.</p>'; return; }
+  c.innerHTML = eps.map(ep=>`<div class="ep-item">
+    <div class="ep-title">${season==='FILM'?'Film':'Épisode'} ${ep.episode} <span class="badge badge-lang">${ep.language}</span></div>
+    <div class="ep-controls"><button class="btn btn-danger btn-small" onclick="deleteEpisode('${esc(name)}','${season}',${ep.id})">🗑️ Supprimer</button></div>
+  </div>`).join('');
+};
+
+window.deleteEpisode = async function(seriesName, season, epId) {
+  if (!isStaff||!confirm('Supprimer cet épisode ?')) return;
+  const s = globalSeries[seriesName].seasons;
+  s[season] = s[season].filter(e=>e.id!==epId);
+  if (!s[season].length) delete s[season];
+  await saveGlobalData();
+  loadEpisodesForManage();
+  toast('✅ Épisode supprimé !');
+};
+
+window.updateContentFields = function() {
+  const t = document.getElementById('contentType').value;
+  document.getElementById('seasonField').style.display = t==='film'?'none':'block';
+  document.getElementById('episodeLabel').textContent = t==='film'?'Numéro du film':'Épisode';
+  if (t==='film') document.getElementById('episodeNumber').value='1';
+};
+
+window.addEpisode = async function() {
+  if (!isStaff) return;
+  const name=document.getElementById('selectSeries').value;
+  const type=document.getElementById('contentType').value;
+  const season=document.getElementById('seasonNumber').value;
+  const episode=document.getElementById('episodeNumber').value;
+  const lang=document.getElementById('language').value;
+  const url=document.getElementById('videoUrl').value.trim();
+  if (!name||!episode||!url) { toast('❌ Remplissez tous les champs'); return; }
+  const sk=type==='film'?'FILM':type==='miniseason'?`MINI-${season}`:season;
+  if (!globalSeries[name].seasons[sk]) globalSeries[name].seasons[sk]=[];
+  globalSeries[name].seasons[sk].push({episode,language:lang,url,type,id:Date.now()});
+  await saveGlobalData();
+  toast(`✅ Épisode ${episode} ajouté !`);
+  document.getElementById('videoUrl').value='';
+  if (type==='season') document.getElementById('episodeNumber').value=parseInt(episode)+1;
+};
+
+// ─── CALENDRIER ──────────────────────────────────────────────────────
+window.addCalendarEvent = async function() {
+  const date=document.getElementById('eventDate').value;
+  const title=document.getElementById('eventTitle').value.trim();
+  if (!date||!title) { toast('❌ Date et titre requis'); return; }
+  calendarEvents.push({id:Date.now(),day:document.getElementById('eventDay').value,date,time:document.getElementById('eventTime').value,title,description:document.getElementById('eventDescription').value.trim()});
+  await saveGlobalData();
+  ['eventDay','eventDate','eventTime','eventTitle','eventDescription'].forEach(id=>document.getElementById(id).value='');
+  displayStaffEvents(); displayCalendar();
+  toast('✅ Événement ajouté !');
+};
+
+window.deleteEvent = async function(id) {
+  if (!confirm('Supprimer cet événement ?')) return;
+  calendarEvents=calendarEvents.filter(e=>e.id!==id);
+  await saveGlobalData();
+  displayStaffEvents(); displayCalendar();
+};
+
+function fmtDate(d) { return new Date(d).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}); }
+
+function displayStaffEvents() {
+  const c=document.getElementById('staffEventsList'); if (!c) return;
+  if (!calendarEvents.length) { c.innerHTML='<p class="txt-muted" style="text-align:center;padding:20px">Aucun événement.</p>'; return; }
+  const sorted=[...calendarEvents].sort((a,b)=>new Date(a.date)-new Date(b.date));
+  c.innerHTML=sorted.map(ev=>`<div class="event-card">
+    <div class="row-between">
+      <div><div class="event-title">${ev.title}</div><div class="event-date">${ev.day?ev.day+' — ':''}${fmtDate(ev.date)}${ev.time?' à '+ev.time:''}</div></div>
+      <button class="btn btn-danger btn-small" onclick="deleteEvent(${ev.id})">🗑️</button>
+    </div>
+    ${ev.description?`<div class="event-desc">${ev.description}</div>`:''}
+  </div>`).join('');
+}
+
+function displayCalendar() {
+  const c=document.getElementById('calendarContent');
+  if (!calendarEvents.length) { c.innerHTML='<p class="txt-muted" style="text-align:center;padding:40px 0">Aucun événement programmé.</p>'; return; }
+  const today=new Date(); today.setHours(0,0,0,0);
+  const sorted=[...calendarEvents].sort((a,b)=>new Date(a.date)-new Date(b.date));
+  c.innerHTML=sorted.map(ev=>{
+    const d=new Date(ev.date); d.setHours(0,0,0,0);
+    const cls=d<today?'past':d.getTime()===today.getTime()?'today':'';
+    return `<div class="event-card ${cls}">
+      <div class="event-title">${ev.title}</div>
+      <div class="event-date">${ev.day?ev.day+' — ':''}${fmtDate(ev.date)}${ev.time?' à '+ev.time:''}</div>
+      ${ev.description?`<div class="event-desc">${ev.description}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+// ─── ANIMATIONS BOUTONS ──────────────────────────────────────────────
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('.btn');
+  if (!btn) return;
+  btn.classList.remove('pop');
+  void btn.offsetWidth;
+  btn.classList.add('pop');
+  btn.addEventListener('animationend', () => btn.classList.remove('pop'), {once:true});
+  const rip = document.createElement('span');
+  rip.className = 'btn-ripple';
+  const rect = btn.getBoundingClientRect();
+  rip.style.left = (e.clientX-rect.left)+'px';
+  rip.style.top = (e.clientY-rect.top)+'px';
+  btn.appendChild(rip);
+  rip.addEventListener('animationend', () => rip.remove());
+});
+
+</script>
+</body>
+</html>
