@@ -2,123 +2,167 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Zen Anime</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{--bg1:#0f0c29;--bg2:#1a1a3e;--accent:#7c5cbf;--accent2:#4ecdc4;--glass:rgba(255,255,255,0.06);--glass2:rgba(255,255,255,0.12);--border:rgba(255,255,255,0.1);--text:#f0eeff;--text2:rgba(240,238,255,0.6);--danger:#ff5555}
 [data-theme="dark"]{--bg1:#0a0a0f;--bg2:#111118;--accent:#9d4edd}
 [data-theme="light"]{--bg1:#f0f0f7;--bg2:#e4e4f0;--glass:rgba(0,0,0,0.05);--glass2:rgba(0,0,0,0.1);--border:rgba(0,0,0,0.1);--text:#1a1a2e;--text2:rgba(20,20,40,0.55)}
 [data-theme="blue"]{--bg1:#020b18;--bg2:#051525;--accent:#00c8ff}
-body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,var(--bg1) 0%,var(--bg2) 100%);min-height:100vh;color:var(--text);padding-bottom:80px}
-.header{background:rgba(15,12,41,0.88);backdrop-filter:blur(20px);padding:12px 0;position:sticky;top:0;z-index:100;border-bottom:1px solid var(--border)}
-.nav{max-width:1400px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:0 16px;gap:10px;flex-wrap:wrap}
-.logo{font-size:22px;font-weight:900;background:linear-gradient(90deg,#a78bfa,#4ecdc4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap}
-.menu{display:flex;gap:4px;list-style:none;flex-wrap:wrap}
-.menu a{color:var(--text2);text-decoration:none;padding:7px 13px;border-radius:12px;transition:all .2s;font-weight:700;font-size:13px;display:block}
-.menu a:hover,.menu a.active{background:var(--glass2);color:var(--text)}
-.menu a.active{color:#a78bfa}
-.user-controls{display:flex;gap:8px;align-items:center;font-size:13px}
-.search-container{max-width:1400px;margin:12px auto;padding:0 16px}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,var(--bg1) 0%,var(--bg2) 100%);min-height:100vh;color:var(--text);padding-bottom:90px}
+
+/* HEADER */
+.header{background:rgba(15,12,41,0.92);backdrop-filter:blur(20px);padding:10px 0;position:sticky;top:0;z-index:100;border-bottom:1px solid var(--border)}
+.nav{max-width:1400px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:0 14px;gap:8px}
+.logo{font-size:20px;font-weight:900;background:linear-gradient(90deg,#a78bfa,#4ecdc4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap;flex-shrink:0}
+.user-controls{display:flex;gap:6px;align-items:center;flex-shrink:0}
+#usernameDisplay{font-size:12px;color:var(--text2);max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* BOTTOM NAV MOBILE */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(15,12,41,0.96);backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center;padding:8px 0 12px;z-index:200}
+.bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--text2);text-decoration:none;font-size:10px;font-weight:700;padding:4px 8px;border-radius:12px;transition:all .2s;min-width:52px}
+.bottom-nav a .nav-icon{font-size:20px;line-height:1}
+.bottom-nav a.active{color:var(--accent)}
+.bottom-nav a.active .nav-icon{transform:scale(1.15)}
+@media(min-width:768px){.bottom-nav{display:none}}
+
+/* TOP MENU (desktop only) */
+.top-menu{display:none}
+@media(min-width:768px){
+  .top-menu{display:flex;gap:4px;list-style:none}
+  .top-menu a{color:var(--text2);text-decoration:none;padding:7px 13px;border-radius:12px;transition:all .2s;font-weight:700;font-size:13px;display:block}
+  .top-menu a:hover,.top-menu a.active{background:var(--glass2);color:var(--text)}
+  .top-menu a.active{color:#a78bfa}
+}
+
+/* SEARCH */
+.search-container{max-width:1400px;margin:10px auto;padding:0 14px}
 .search-box{position:relative}
-.search-box input{width:100%;padding:11px 50px 11px 16px;border:1px solid var(--border);border-radius:50px;background:var(--glass);backdrop-filter:blur(10px);color:var(--text);font-size:14px;font-family:inherit}
+.search-box input{width:100%;padding:11px 48px 11px 16px;border:1px solid var(--border);border-radius:50px;background:var(--glass);backdrop-filter:blur(10px);color:var(--text);font-size:14px;font-family:inherit}
 .search-box input::placeholder{color:var(--text2)}
 .search-box input:focus{outline:none;border-color:var(--accent)}
-.search-box button{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;padding:7px 14px;border-radius:20px;color:white;cursor:pointer;font-size:14px}
-.search-results{margin-top:8px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;max-height:280px;overflow-y:auto;z-index:200;position:relative}
+.search-box button{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;padding:7px 13px;border-radius:20px;color:white;cursor:pointer;font-size:14px}
+.search-results{margin-top:6px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;max-height:260px;overflow-y:auto;z-index:200;position:relative}
 .search-result-item{padding:11px 16px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .2s;font-size:14px}
 .search-result-item:hover{background:var(--glass2)}
-.container{max-width:1400px;margin:16px auto;padding:0 16px}
-.card{background:var(--glass);border:1px solid var(--border);border-radius:20px;padding:20px;margin-bottom:16px;backdrop-filter:blur(10px)}
-h2{margin-bottom:14px;font-size:20px;font-weight:800}
-h3{margin-bottom:10px;font-size:17px;font-weight:700}
-.form-group{margin-bottom:14px}
+
+/* CONTAINER */
+.container{max-width:1400px;margin:12px auto;padding:0 14px}
+.card{background:var(--glass);border:1px solid var(--border);border-radius:18px;padding:16px;margin-bottom:14px;backdrop-filter:blur(10px)}
+h2{margin-bottom:12px;font-size:18px;font-weight:800}
+h3{margin-bottom:10px;font-size:16px;font-weight:700}
+.form-group{margin-bottom:12px}
 label{display:block;margin-bottom:5px;font-weight:700;font-size:13px;color:var(--text2)}
-input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:var(--glass);color:var(--text);font-size:14px;font-family:inherit;transition:all .2s}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--border);border-radius:12px;background:var(--glass);color:var(--text);font-size:15px;font-family:inherit;transition:all .2s}
 input::placeholder,textarea::placeholder{color:var(--text2)}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);background:var(--glass2)}
 select option{background:#1a1a3e;color:#fff}
+
+/* BUTTONS */
 @keyframes btnPop{0%{transform:scale(1)}40%{transform:scale(0.88)}70%{transform:scale(1.1)}100%{transform:scale(1)}}
 @keyframes ripple{0%{transform:scale(0);opacity:.5}100%{transform:scale(4);opacity:0}}
 @keyframes favBeat{0%{transform:scale(1)}25%{transform:scale(0)}55%{transform:scale(1.6)}75%{transform:scale(0.85)}100%{transform:scale(1)}}
 @keyframes spin{to{transform:rotate(360deg)}}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 20px;border:none;border-radius:50px;background:linear-gradient(135deg,var(--accent),#9d77ef);color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;position:relative;overflow:hidden;transition:opacity .15s}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 20px;border:none;border-radius:50px;background:linear-gradient(135deg,var(--accent),#9d77ef);color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;position:relative;overflow:hidden;transition:opacity .15s;min-height:44px}
 .btn:hover{opacity:.85}
 .btn:disabled{opacity:.5;cursor:not-allowed}
 .btn.pop{animation:btnPop .3s cubic-bezier(.36,.07,.19,.97) both}
 .btn-ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,0.3);width:30px;height:30px;margin-top:-15px;margin-left:-15px;animation:ripple .5s linear;pointer-events:none}
-.btn-small{padding:7px 14px;font-size:12px;border-radius:30px}
+.btn-small{padding:8px 14px;font-size:12px;border-radius:30px;min-height:36px}
 .btn-danger{background:linear-gradient(135deg,var(--danger),#cc3333)}
 .btn-teal{background:linear-gradient(135deg,var(--accent2),#44a08d)}
 .btn-ghost{background:var(--glass);border:1px solid var(--border);color:var(--text)}
 .spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:inline-block}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1a1a3e;border:1px solid var(--accent);color:var(--text);padding:12px 24px;border-radius:50px;font-weight:700;font-size:14px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none}
+
+/* TOAST */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1a1a3e;border:1px solid var(--accent);color:var(--text);padding:12px 22px;border-radius:50px;font-weight:700;font-size:14px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;max-width:90vw;text-align:center}
 .toast.show{opacity:1}
-.series-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px;margin-top:14px}
-@media(min-width:640px){.series-grid{grid-template-columns:repeat(auto-fill,minmax(175px,1fr))}}
+
+/* GRID */
+.series-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;margin-top:12px}
+@media(min-width:480px){.series-grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr))}}
+@media(min-width:768px){.series-grid{grid-template-columns:repeat(auto-fill,minmax(175px,1fr))}}
 @media(min-width:1024px){.series-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}}
-.series-card{background:var(--glass);border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;transition:all .25s}
-.series-card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 8px 24px rgba(124,92,191,.3)}
-.series-image{width:100%;height:180px;background:linear-gradient(135deg,#1a1240,#2d1b69);display:flex;align-items:center;justify-content:center;font-size:36px}
+.series-card{background:var(--glass);border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .25s;active:opacity:.8}
+.series-card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 6px 20px rgba(124,92,191,.3)}
+.series-image{width:100%;height:155px;background:linear-gradient(135deg,#1a1240,#2d1b69);display:flex;align-items:center;justify-content:center;font-size:34px}
 .series-image img{width:100%;height:100%;object-fit:cover}
-.series-info{padding:10px 12px}
-.series-title{font-size:14px;font-weight:700;margin-bottom:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-@media(max-width:480px){.series-image{height:145px}.series-title{font-size:13px}}
-.badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;margin:2px}
+.series-info{padding:9px 11px}
+.series-title{font-size:13px;font-weight:700;margin-bottom:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(min-width:768px){.series-image{height:180px}.series-title{font-size:14px}}
+
+/* BADGES */
+.badge{display:inline-block;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:700;margin:2px}
 .badge-cat{background:rgba(124,92,191,.35);color:#c4a6ff;border:1px solid rgba(124,92,191,.4)}
 .badge-age{background:rgba(255,85,85,.25);color:#ff9999;border:1px solid rgba(255,85,85,.3)}
 .badge-lang{background:rgba(78,205,196,.2);color:#7eeae4;border:1px solid rgba(78,205,196,.3);font-size:10px;padding:2px 7px}
-.ep-item{background:var(--glass2);border:1px solid var(--border);padding:12px 14px;margin:7px 0;border-radius:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.ep-title{font-weight:700;font-size:14px;flex:1;min-width:100px}
+
+/* EPISODES */
+.ep-item{background:var(--glass2);border:1px solid var(--border);padding:12px 13px;margin:7px 0;border-radius:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ep-title{font-weight:700;font-size:14px;flex:1;min-width:80px}
 .ep-controls{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-.fav-btn{background:none;border:none;font-size:20px;cursor:pointer;line-height:1;padding:2px;filter:grayscale(1);opacity:.45;transition:all .2s}
+.fav-btn{background:none;border:none;font-size:22px;cursor:pointer;line-height:1;padding:4px;filter:grayscale(1);opacity:.45;transition:all .2s;min-width:36px;min-height:36px;display:flex;align-items:center;justify-content:center}
 .fav-btn:hover{opacity:.75;transform:scale(1.15)}
 .fav-btn.active{filter:none;opacity:1}
 .fav-btn.beat{animation:favBeat .4s cubic-bezier(.36,.07,.19,.97) both}
-.lang-tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
-.lang-tab{padding:7px 16px;border:1px solid var(--border);border-radius:30px;background:var(--glass);color:var(--text2);cursor:pointer;transition:all .2s;font-weight:700;font-size:13px;font-family:inherit}
+
+/* LANG TABS */
+.lang-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.lang-tab{padding:8px 16px;border:1px solid var(--border);border-radius:30px;background:var(--glass);color:var(--text2);cursor:pointer;transition:all .2s;font-weight:700;font-size:13px;font-family:inherit;min-height:40px}
 .lang-tab.active{background:linear-gradient(135deg,var(--accent),#9d77ef);border-color:transparent;color:white}
-.lang-tab:hover:not(.active){background:var(--glass2);color:var(--text)}
 .lang-panel{display:none}
 .lang-panel.active{display:block}
-.staff-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;border-bottom:1px solid var(--border);padding-bottom:14px}
-.staff-tab{padding:8px 18px;border:1px solid var(--border);border-radius:12px;background:var(--glass);color:var(--text2);cursor:pointer;font-weight:700;font-size:13px;font-family:inherit;transition:all .2s}
+
+/* STAFF */
+.staff-tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;border-bottom:1px solid var(--border);padding-bottom:14px}
+.staff-tab{padding:8px 16px;border:1px solid var(--border);border-radius:12px;background:var(--glass);color:var(--text2);cursor:pointer;font-weight:700;font-size:13px;font-family:inherit;transition:all .2s;min-height:40px}
 .staff-tab.active{background:linear-gradient(135deg,var(--accent),#9d77ef);border-color:transparent;color:white}
-.staff-tab:hover:not(.active){background:var(--glass2);color:var(--text)}
 .staff-panel{display:none}
 .staff-panel.active{display:block}
-.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.75);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;z-index:1000;overflow-y:auto;padding:20px}
-.modal-card{max-width:440px;width:100%;position:relative;background:var(--bg2);border:1px solid var(--border);border-radius:24px;padding:28px 24px}
-.close-modal{position:absolute;top:14px;right:14px;background:var(--glass2);border:none;color:var(--text);font-size:20px;width:34px;height:34px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
-.close-modal:hover{background:var(--glass);transform:rotate(90deg)}
-.video-player{width:100%;height:220px;border-radius:14px;border:none;margin-top:12px}
-@media(min-width:640px){.video-player{height:380px}}
+
+/* MODALS */
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);display:flex;align-items:flex-end;justify-content:center;z-index:1000;padding:0}
+@media(min-width:640px){.modal{align-items:center;padding:20px}}
+.modal-card{max-width:440px;width:100%;position:relative;background:var(--bg2);border:1px solid var(--border);border-radius:24px 24px 0 0;padding:28px 20px 36px;max-height:92vh;overflow-y:auto}
+@media(min-width:640px){.modal-card{border-radius:24px;padding:28px 24px}}
+.close-modal{position:absolute;top:14px;right:14px;background:var(--glass2);border:none;color:var(--text);font-size:20px;width:36px;height:36px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.close-modal:hover{transform:rotate(90deg)}
+
+/* VIDEO */
+.video-player{width:100%;height:210px;border-radius:12px;border:none;margin-top:10px}
+@media(min-width:480px){.video-player{height:300px}}
+@media(min-width:768px){.video-player{height:420px}}
 @media(min-width:1024px){.video-player{height:500px}}
-.anime-header{width:100%;height:180px;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,#1a1240,#2d1b69);display:flex;align-items:center;justify-content:center;font-size:48px;margin-bottom:14px}
-@media(min-width:640px){.anime-header{height:250px}}
+.anime-header{width:100%;height:160px;border-radius:12px;overflow:hidden;background:linear-gradient(135deg,#1a1240,#2d1b69);display:flex;align-items:center;justify-content:center;font-size:44px;margin-bottom:12px}
+@media(min-width:640px){.anime-header{height:220px}}
 .anime-header img{width:100%;height:100%;object-fit:cover}
-.event-card{padding:14px;margin:8px 0;border-radius:12px;border-left:4px solid var(--accent);background:var(--glass)}
+
+/* CALENDAR */
+.event-card{padding:13px;margin:7px 0;border-radius:12px;border-left:4px solid var(--accent);background:var(--glass)}
 .event-card.today{border-left-color:var(--accent2)}
 .event-card.past{opacity:.5;border-left-color:#555}
 .event-title{font-weight:700;font-size:15px}
 .event-date{font-size:12px;color:var(--text2);margin-top:4px}
-.event-desc{font-size:13px;margin-top:6px}
-.section{animation:fadeIn .3s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.event-desc{font-size:13px;margin-top:5px}
+
+/* MISC */
+.section{animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 .hidden{display:none !important}
-.divider{border:none;border-top:1px solid var(--border);margin:20px 0}
+.divider{border:none;border-top:1px solid var(--border);margin:18px 0}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .row-between{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between}
 .txt-muted{color:var(--text2);font-size:13px}
-.series-meta{display:flex;flex-wrap:wrap;gap:2px;margin-top:6px}
-.guest-banner{background:linear-gradient(135deg,rgba(255,184,108,.2),rgba(255,85,85,.2));border:1px solid rgba(255,184,108,.3);padding:16px;border-radius:16px;margin-bottom:16px;text-align:center}
-.hist-item{background:var(--glass);border:1px solid var(--border);padding:8px 14px;margin:6px 0;border-radius:10px;font-size:13px}
-.file-label{display:block;padding:11px;background:var(--glass);border:1px dashed var(--border);border-radius:12px;cursor:pointer;text-align:center;font-size:14px;color:var(--text2);transition:all .2s}
-.file-label:hover{background:var(--glass2);border-color:var(--accent);color:var(--text)}
-.img-preview{width:100%;max-height:180px;object-fit:cover;border-radius:10px;margin-top:8px;display:none}
+.series-meta{display:flex;flex-wrap:wrap;gap:2px;margin-top:5px}
+.guest-banner{background:linear-gradient(135deg,rgba(255,184,108,.2),rgba(255,85,85,.2));border:1px solid rgba(255,184,108,.3);padding:14px;border-radius:14px;margin-bottom:14px;text-align:center}
+.hist-item{background:var(--glass);border:1px solid var(--border);padding:8px 13px;margin:5px 0;border-radius:10px;font-size:13px}
+.file-label{display:block;padding:12px;background:var(--glass);border:1px dashed var(--border);border-radius:12px;cursor:pointer;text-align:center;font-size:14px;color:var(--text2);transition:all .2s}
+.file-label:hover{background:var(--glass2);border-color:var(--accent)}
+.img-preview{width:100%;max-height:160px;object-fit:cover;border-radius:10px;margin-top:8px;display:none}
 .img-preview.show{display:block}
-::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--accent);border-radius:10px}
 </style>
@@ -127,27 +171,29 @@ select option{background:#1a1a3e;color:#fff}
 
 <div id="toast" class="toast"></div>
 
+<!-- HEADER -->
 <header class="header">
   <nav class="nav">
     <div class="logo">🎬 Zen Anime</div>
-    <ul class="menu">
-      <li><a href="#" class="active" onclick="showSection('home');return false">Accueil</a></li>
-      <li><a href="#" onclick="showSection('calendar');return false">Calendrier</a></li>
-      <li><a href="#" onclick="showSection('library');return false">Bibliothèque</a></li>
-      <li><a href="#" onclick="showSection('favorites');return false">Favoris</a></li>
-      <li><a href="#" onclick="showSection('settings');return false">Paramètres</a></li>
+    <ul class="top-menu">
+      <li><a href="#" class="active" onclick="showSection('home');return false" data-i18n="nav_home">Accueil</a></li>
+      <li><a href="#" onclick="showSection('calendar');return false" data-i18n="nav_calendar">Calendrier</a></li>
+      <li><a href="#" onclick="showSection('library');return false" data-i18n="nav_library">Bibliothèque</a></li>
+      <li><a href="#" onclick="showSection('favorites');return false" data-i18n="nav_favorites">Favoris</a></li>
+      <li><a href="#" onclick="showSection('settings');return false" data-i18n="nav_settings">Paramètres</a></li>
     </ul>
     <div class="user-controls">
       <span id="usernameDisplay"></span>
-      <button class="btn btn-small btn-teal" onclick="showLoginModal()" id="loginHeaderBtn">Se connecter</button>
-      <button class="btn btn-small btn-ghost hidden" onclick="logout()" id="logoutBtn">Déconnexion</button>
+      <button class="btn btn-small btn-teal" onclick="showLoginModal()" id="loginHeaderBtn" data-i18n="btn_login">Se connecter</button>
+      <button class="btn btn-small btn-ghost hidden" onclick="logout()" id="logoutBtn" data-i18n="btn_logout">Déconnexion</button>
     </div>
   </nav>
 </header>
 
+<!-- SEARCH -->
 <div class="search-container">
   <div class="search-box">
-    <input type="text" id="searchInput" placeholder="Rechercher un anime..." oninput="searchAnime()">
+    <input type="text" id="searchInput" data-i18n-placeholder="search_placeholder" placeholder="Rechercher un anime..." oninput="searchAnime()">
     <button>🔍</button>
   </div>
   <div id="searchResults" class="search-results hidden"></div>
@@ -159,23 +205,23 @@ select option{background:#1a1a3e;color:#fff}
   <div id="loginModal" class="modal hidden">
     <div class="modal-card">
       <button class="close-modal" onclick="closeLoginModal()">×</button>
-      <h2>👋 Bienvenue</h2>
+      <h2>👋 <span data-i18n="welcome">Bienvenue</span></h2>
       <div id="loginForm">
-        <p class="txt-muted" style="margin-bottom:14px">Connectez-vous pour synchroniser vos favoris sur tous vos appareils ☁️</p>
-        <div class="form-group"><label>Pseudo</label><input type="text" id="loginUsername" placeholder="Votre pseudo"></div>
-        <div class="form-group"><label>Mot de passe</label><input type="password" id="loginPassword" placeholder="Votre mot de passe"></div>
+        <p class="txt-muted" style="margin-bottom:14px" data-i18n="login_desc">Connectez-vous pour synchroniser vos favoris ☁️</p>
+        <div class="form-group"><label data-i18n="username">Pseudo</label><input type="text" id="loginUsername" data-i18n-placeholder="username_ph" placeholder="Votre pseudo"></div>
+        <div class="form-group"><label data-i18n="password">Mot de passe</label><input type="password" id="loginPassword" data-i18n-placeholder="password_ph" placeholder="Votre mot de passe"></div>
         <div class="row">
-          <button class="btn" id="loginBtn" onclick="login()">Se connecter</button>
-          <button class="btn btn-ghost" onclick="showRegister()">Créer un compte</button>
+          <button class="btn" id="loginBtn" onclick="login()" data-i18n="btn_signin">Se connecter</button>
+          <button class="btn btn-ghost" onclick="showRegister()" data-i18n="btn_create_account">Créer un compte</button>
         </div>
       </div>
       <div id="registerForm" class="hidden">
-        <p class="txt-muted" style="margin-bottom:14px">Créez un compte pour sauvegarder vos favoris en ligne ☁️</p>
-        <div class="form-group"><label>Pseudo</label><input type="text" id="registerUsername" placeholder="Choisir un pseudo"></div>
-        <div class="form-group"><label>Mot de passe (min 6 caractères)</label><input type="password" id="registerPassword" placeholder="Choisir un mot de passe"></div>
+        <p class="txt-muted" style="margin-bottom:14px" data-i18n="register_desc">Créez un compte pour sauvegarder vos favoris ☁️</p>
+        <div class="form-group"><label data-i18n="username">Pseudo</label><input type="text" id="registerUsername" data-i18n-placeholder="choose_username" placeholder="Choisir un pseudo"></div>
+        <div class="form-group"><label data-i18n="password_min">Mot de passe (min 6 car.)</label><input type="password" id="registerPassword" data-i18n-placeholder="choose_password" placeholder="Choisir un mot de passe"></div>
         <div class="row">
-          <button class="btn" id="registerBtn" onclick="register()">S'inscrire</button>
-          <button class="btn btn-ghost" onclick="showLogin()">Retour</button>
+          <button class="btn" id="registerBtn" onclick="register()" data-i18n="btn_register">S'inscrire</button>
+          <button class="btn btn-ghost" onclick="showLogin()" data-i18n="btn_back">Retour</button>
         </div>
       </div>
     </div>
@@ -185,25 +231,25 @@ select option{background:#1a1a3e;color:#fff}
   <div id="staffModal" class="modal hidden">
     <div class="modal-card">
       <button class="close-modal" onclick="closeStaffModal()">×</button>
-      <h2>🔐 Accès Staff</h2>
-      <div class="form-group"><label>Code d'accès</label><input type="password" id="staffCode" placeholder="Entrez le code staff"></div>
-      <button class="btn" onclick="verifyStaffCode()">Valider</button>
+      <h2>🔐 <span data-i18n="staff_access">Accès Staff</span></h2>
+      <div class="form-group"><label data-i18n="access_code">Code d'accès</label><input type="password" id="staffCode" data-i18n-placeholder="enter_code" placeholder="Entrez le code staff"></div>
+      <button class="btn" onclick="verifyStaffCode()" data-i18n="btn_validate">Valider</button>
     </div>
   </div>
 
   <!-- ACCUEIL -->
   <div id="home" class="section">
     <div id="guestBanner" class="guest-banner hidden">
-      <h3>👋 Mode Invité</h3>
-      <p style="margin:8px 0">Connectez-vous pour sauvegarder vos favoris sur tous vos appareils !</p>
-      <button class="btn btn-small" onclick="showLoginModal()">Se connecter</button>
+      <h3>👋 <span data-i18n="guest_mode">Mode Invité</span></h3>
+      <p style="margin:8px 0" data-i18n="guest_desc">Connectez-vous pour sauvegarder vos favoris !</p>
+      <button class="btn btn-small" onclick="showLoginModal()" data-i18n="btn_login">Se connecter</button>
     </div>
     <div class="card">
-      <h2>🌟 Bienvenue sur Zen Anime</h2>
-      <p class="txt-muted">Votre plateforme de streaming d'animes préférés !</p>
+      <h2>🌟 <span data-i18n="welcome_title">Bienvenue sur Zen Anime</span></h2>
+      <p class="txt-muted" data-i18n="welcome_sub">Votre plateforme de streaming d'animes préférés !</p>
     </div>
     <div class="card">
-      <h2>📺 Animes Disponibles</h2>
+      <h2>📺 <span data-i18n="available_anime">Animes Disponibles</span></h2>
       <div id="recentSeries" class="series-grid"></div>
     </div>
   </div>
@@ -211,7 +257,7 @@ select option{background:#1a1a3e;color:#fff}
   <!-- CALENDRIER -->
   <div id="calendar" class="section hidden">
     <div class="card">
-      <h2>📅 Calendrier des Sorties</h2>
+      <h2>📅 <span data-i18n="calendar_title">Calendrier des Sorties</span></h2>
       <div id="calendarContent"></div>
     </div>
   </div>
@@ -221,19 +267,19 @@ select option{background:#1a1a3e;color:#fff}
     <div class="card">
       <h2>👨‍💼 Panel Staff</h2>
       <div class="staff-tabs">
-        <button class="staff-tab active" onclick="switchStaffTab('tab-add-series',this)">➕ Ajouter série</button>
-        <button class="staff-tab" onclick="switchStaffTab('tab-add-ep',this)">📹 Ajouter épisode</button>
-        <button class="staff-tab" onclick="switchStaffTab('tab-manage',this)">🗂️ Gérer</button>
-        <button class="staff-tab" onclick="switchStaffTab('tab-calendar',this)">📅 Calendrier</button>
+        <button class="staff-tab active" onclick="switchStaffTab('tab-add-series',this)">➕ <span data-i18n="add_series">Ajouter série</span></button>
+        <button class="staff-tab" onclick="switchStaffTab('tab-add-ep',this)">📹 <span data-i18n="add_episode">Ajouter épisode</span></button>
+        <button class="staff-tab" onclick="switchStaffTab('tab-manage',this)">🗂️ <span data-i18n="manage">Gérer</span></button>
+        <button class="staff-tab" onclick="switchStaffTab('tab-calendar',this)">📅 <span data-i18n="nav_calendar">Calendrier</span></button>
       </div>
 
       <div id="tab-add-series" class="staff-panel active">
-        <h3>Créer une nouvelle série</h3>
-        <div class="form-group"><label>Nom de la série</label><input type="text" id="seriesName" placeholder="Ex: Mushoku Tensei"></div>
+        <h3 data-i18n="create_series">Créer une nouvelle série</h3>
+        <div class="form-group"><label data-i18n="series_name">Nom de la série</label><input type="text" id="seriesName" placeholder="Ex: Mushoku Tensei"></div>
         <div class="form-group">
-          <label>Catégorie</label>
+          <label data-i18n="category">Catégorie</label>
           <select id="seriesCategory">
-            <option value="">-- Sélectionner --</option>
+            <option value="">-- <span data-i18n="select">Sélectionner</span> --</option>
             <option value="romance">Romance</option><option value="action">Action</option>
             <option value="isekai">Isekai</option><option value="horror">Horror</option>
             <option value="comedy">Comédie</option><option value="drama">Drama</option>
@@ -243,72 +289,74 @@ select option{background:#1a1a3e;color:#fff}
           </select>
         </div>
         <div class="form-group">
-          <label>Âge recommandé</label>
+          <label data-i18n="age">Âge recommandé</label>
           <select id="seriesAge">
-            <option value="">-- Sélectionner --</option>
+            <option value="">-- <span data-i18n="select">Sélectionner</span> --</option>
             <option>Tout public</option><option>7+</option><option>13+</option><option>16+</option><option>18+</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Image de couverture</label>
+          <label data-i18n="cover_image">Image de couverture</label>
           <input type="file" id="seriesImageFile" accept="image/*" style="display:none" onchange="handleImageUpload(event)">
-          <label for="seriesImageFile" class="file-label">📁 Choisir une image</label>
+          <label for="seriesImageFile" class="file-label">📁 <span data-i18n="choose_image">Choisir une image</span></label>
           <div id="fileName" class="txt-muted" style="margin-top:5px;font-size:12px"></div>
           <img id="imagePreview" class="img-preview" alt="Aperçu">
         </div>
-        <button class="btn" onclick="addSeries()">✅ Créer la série</button>
+        <button class="btn" onclick="addSeries()">✅ <span data-i18n="create_series_btn">Créer la série</span></button>
       </div>
 
       <div id="tab-add-ep" class="staff-panel">
-        <h3>Ajouter un épisode</h3>
-        <div class="form-group"><label>Série</label><select id="selectSeries"></select></div>
+        <h3 data-i18n="add_episode_title">Ajouter un épisode</h3>
+        <div class="form-group"><label data-i18n="series">Série</label><select id="selectSeries"></select></div>
         <div class="form-group">
-          <label>Type</label>
+          <label data-i18n="type">Type</label>
           <select id="contentType" onchange="updateContentFields()">
-            <option value="season">Saison</option><option value="film">Film</option><option value="miniseason">Mini-saison</option>
+            <option value="season" data-i18n="season">Saison</option>
+            <option value="film" data-i18n="film">Film</option>
+            <option value="miniseason" data-i18n="miniseason">Mini-saison</option>
           </select>
         </div>
-        <div class="form-group" id="seasonField"><label>Numéro de saison</label><input type="number" id="seasonNumber" min="1" value="1"></div>
-        <div class="form-group"><label id="episodeLabel">Épisode</label><input type="number" id="episodeNumber" min="1" value="1"></div>
+        <div class="form-group" id="seasonField"><label data-i18n="season_number">Numéro de saison</label><input type="number" id="seasonNumber" min="1" value="1"></div>
+        <div class="form-group"><label id="episodeLabel" data-i18n="episode">Épisode</label><input type="number" id="episodeNumber" min="1" value="1"></div>
         <div class="form-group">
-          <label>Langue</label>
+          <label data-i18n="language">Langue</label>
           <select id="language">
             <option value="VOSTFR">VOSTFR</option><option value="VF">VF</option>
             <option value="VO">VO</option><option value="VOSTA">VOSTA</option>
           </select>
         </div>
-        <div class="form-group"><label>URL vidéo ou code iframe</label><textarea id="videoUrl" rows="4" placeholder="https://video.sibnet.ru/... ou &lt;iframe ...&gt;"></textarea></div>
-        <button class="btn" onclick="addEpisode()">➕ Ajouter l'épisode</button>
+        <div class="form-group"><label data-i18n="video_url">URL vidéo ou code iframe</label><textarea id="videoUrl" rows="4" placeholder="https://video.sibnet.ru/... ou &lt;iframe ...&gt;"></textarea></div>
+        <button class="btn" onclick="addEpisode()">➕ <span data-i18n="add_ep_btn">Ajouter l'épisode</span></button>
       </div>
 
       <div id="tab-manage" class="staff-panel">
-        <h3>Gérer les séries et épisodes</h3>
-        <div class="form-group"><label>Série</label><select id="manageSelectSeries" onchange="loadSeasonsForManage()"></select></div>
+        <h3 data-i18n="manage_title">Gérer les séries et épisodes</h3>
+        <div class="form-group"><label data-i18n="series">Série</label><select id="manageSelectSeries" onchange="loadSeasonsForManage()"></select></div>
         <div id="manageSeriesActions" class="hidden" style="margin-bottom:14px">
-          <button class="btn btn-danger btn-small" onclick="deleteSeriesFromManage()">🗑️ Supprimer cette série</button>
+          <button class="btn btn-danger btn-small" onclick="deleteSeriesFromManage()">🗑️ <span data-i18n="delete_series">Supprimer cette série</span></button>
         </div>
-        <div class="form-group"><label>Saison</label><select id="manageSelectSeason" onchange="loadEpisodesForManage()"></select></div>
+        <div class="form-group"><label data-i18n="season">Saison</label><select id="manageSelectSeason" onchange="loadEpisodesForManage()"></select></div>
         <div id="manageEpisodesList"></div>
       </div>
 
       <div id="tab-calendar" class="staff-panel">
-        <h3>📅 Créer un événement</h3>
+        <h3>📅 <span data-i18n="create_event">Créer un événement</span></h3>
         <div class="form-group">
-          <label>Jour</label>
+          <label data-i18n="day">Jour</label>
           <select id="eventDay">
-            <option value="">-- Sélectionner --</option>
-            <option>Lundi</option><option>Mardi</option><option>Mercredi</option>
-            <option>Jeudi</option><option>Vendredi</option><option>Samedi</option><option>Dimanche</option>
+            <option value="">--</option>
+            <option data-i18n="monday">Lundi</option><option data-i18n="tuesday">Mardi</option><option data-i18n="wednesday">Mercredi</option>
+            <option data-i18n="thursday">Jeudi</option><option data-i18n="friday">Vendredi</option><option data-i18n="saturday">Samedi</option><option data-i18n="sunday">Dimanche</option>
           </select>
         </div>
-        <div class="form-group"><label>Date</label><input type="date" id="eventDate"></div>
-        <div class="form-group"><label>Heure</label><input type="time" id="eventTime"></div>
-        <div class="form-group"><label>Titre</label><input type="text" id="eventTitle" placeholder="Ex: Sortie nouvel épisode"></div>
-        <div class="form-group"><label>Description</label><textarea id="eventDescription" rows="3" placeholder="Ex: Solo Leveling S2 EP5"></textarea></div>
-        <button class="btn" onclick="addCalendarEvent()">➕ Ajouter l'événement</button>
+        <div class="form-group"><label data-i18n="date">Date</label><input type="date" id="eventDate"></div>
+        <div class="form-group"><label data-i18n="time">Heure</label><input type="time" id="eventTime"></div>
+        <div class="form-group"><label data-i18n="title">Titre</label><input type="text" id="eventTitle" placeholder="Ex: Sortie nouvel épisode"></div>
+        <div class="form-group"><label data-i18n="description">Description</label><textarea id="eventDescription" rows="3" placeholder="Ex: Solo Leveling S2 EP5"></textarea></div>
+        <button class="btn" onclick="addCalendarEvent()">➕ <span data-i18n="add_event_btn">Ajouter l'événement</span></button>
         <hr class="divider">
-        <h3>Événements programmés</h3>
-        <div id="staffEventsList" style="max-height:350px;overflow-y:auto;margin-top:10px"></div>
+        <h3 data-i18n="scheduled_events">Événements programmés</h3>
+        <div id="staffEventsList" style="max-height:320px;overflow-y:auto;margin-top:10px"></div>
       </div>
     </div>
   </div>
@@ -316,7 +364,7 @@ select option{background:#1a1a3e;color:#fff}
   <!-- BIBLIOTHEQUE -->
   <div id="library" class="section hidden">
     <div class="card">
-      <h2>📚 Bibliothèque</h2>
+      <h2>📚 <span data-i18n="library_title">Bibliothèque</span></h2>
       <div id="libraryContent" class="series-grid"></div>
     </div>
   </div>
@@ -324,12 +372,12 @@ select option{background:#1a1a3e;color:#fff}
   <!-- FAVORIS -->
   <div id="favorites" class="section hidden">
     <div id="favGuestWarning" class="guest-banner hidden">
-      <h3>🔒 Connectez-vous</h3>
-      <p style="margin:8px 0">Connectez-vous pour voir vos favoris synchronisés.</p>
-      <button class="btn btn-small" onclick="showLoginModal()">Se connecter</button>
+      <h3>🔒 <span data-i18n="login_required">Connectez-vous</span></h3>
+      <p style="margin:8px 0" data-i18n="fav_login_desc">Connectez-vous pour voir vos favoris synchronisés.</p>
+      <button class="btn btn-small" onclick="showLoginModal()" data-i18n="btn_login">Se connecter</button>
     </div>
     <div id="favContent" class="card hidden">
-      <h2>⭐ Mes Favoris</h2>
+      <h2>⭐ <span data-i18n="my_favorites">Mes Favoris</span></h2>
       <div id="favoritesContent"></div>
     </div>
   </div>
@@ -337,33 +385,45 @@ select option{background:#1a1a3e;color:#fff}
   <!-- PARAMÈTRES -->
   <div id="settings" class="section hidden">
     <div class="card">
-      <h2>⚙️ Paramètres</h2>
+      <h2>⚙️ <span data-i18n="settings_title">Paramètres</span></h2>
+
       <div class="form-group">
-        <label>🎨 Thème</label>
+        <label>🎨 <span data-i18n="theme">Thème</span></label>
         <select id="themeSelect" onchange="changeTheme()">
-          <option value="default">Par défaut</option>
-          <option value="dark">Sombre</option>
-          <option value="light">Clair</option>
-          <option value="blue">Bleu</option>
+          <option value="default" data-i18n="theme_default">Par défaut</option>
+          <option value="dark" data-i18n="theme_dark">Sombre</option>
+          <option value="light" data-i18n="theme_light">Clair</option>
+          <option value="blue" data-i18n="theme_blue">Bleu</option>
         </select>
       </div>
+
+      <div class="form-group">
+        <label>🌍 <span data-i18n="language_label">Langue / Language</span></label>
+        <select id="langSelect" onchange="changeLang()">
+          <option value="fr">🇫🇷 Français</option>
+          <option value="en">🇬🇧 English</option>
+        </select>
+      </div>
+
       <hr class="divider">
-      <h3>🔍 Historique de recherche</h3>
+      <h3>🔍 <span data-i18n="search_history">Historique de recherche</span></h3>
       <div id="historyContent" style="margin-bottom:10px"></div>
-      <button class="btn btn-danger btn-small" onclick="clearHistory()">🗑️ Effacer l'historique</button>
+      <button class="btn btn-danger btn-small" onclick="clearHistory()" data-i18n="clear_history">🗑️ Effacer l'historique</button>
+
       <hr class="divider">
-      <h3>👤 Compte</h3>
+      <h3>👤 <span data-i18n="account">Compte</span></h3>
       <div id="settingsAccountArea"></div>
+
       <hr class="divider">
       <h3>👨‍💼 Panel Staff</h3>
-      <button class="btn btn-small" onclick="showStaffModal()">🔐 Accès Staff</button>
+      <button class="btn btn-small" onclick="showStaffModal()">🔐 <span data-i18n="staff_access">Accès Staff</span></button>
     </div>
   </div>
 
   <!-- LECTEUR -->
   <div id="player" class="section hidden">
     <div class="card">
-      <button class="btn btn-ghost btn-small" onclick="showSection('library')" style="margin-bottom:14px">← Retour</button>
+      <button class="btn btn-ghost btn-small" onclick="showSection('library')" style="margin-bottom:12px">← <span data-i18n="back">Retour</span></button>
       <div id="animeHeaderImage"></div>
       <h2 id="playerTitle"></h2>
       <div id="playerContent"></div>
@@ -372,11 +432,35 @@ select option{background:#1a1a3e;color:#fff}
 
 </div>
 
+<!-- BOTTOM NAV MOBILE -->
+<nav class="bottom-nav">
+  <a href="#" onclick="showSection('home');return false" id="bnav-home">
+    <span class="nav-icon">🏠</span>
+    <span data-i18n="nav_home">Accueil</span>
+  </a>
+  <a href="#" onclick="showSection('library');return false" id="bnav-library">
+    <span class="nav-icon">📚</span>
+    <span data-i18n="nav_library">Biblio</span>
+  </a>
+  <a href="#" onclick="showSection('calendar');return false" id="bnav-calendar">
+    <span class="nav-icon">📅</span>
+    <span data-i18n="nav_calendar">Calendrier</span>
+  </a>
+  <a href="#" onclick="showSection('favorites');return false" id="bnav-favorites">
+    <span class="nav-icon">⭐</span>
+    <span data-i18n="nav_favorites">Favoris</span>
+  </a>
+  <a href="#" onclick="showSection('settings');return false" id="bnav-settings">
+    <span class="nav-icon">⚙️</span>
+    <span data-i18n="nav_settings">Params</span>
+  </a>
+</nav>
+
 <!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDPWdRd-R6r7K0JQ2CZANptgEtqUeVdNZ0",
@@ -391,227 +475,319 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// ─── VARIABLES GLOBALES ───────────────────────────────────────────────
-const STAFF_CODE = "773475";
-let globalSeries = {};
-let currentUser = null;      // objet Firebase user
-let userFavorites = [];      // tableau d'IDs
-let searchHistory = [];
-let isStaff = false;
-let currentImageBase64 = null;
-let calendarEvents = [];
+// ── TRADUCTIONS ──────────────────────────────────────────────────────
+const T = {
+  fr: {
+    nav_home:'Accueil', nav_calendar:'Calendrier', nav_library:'Bibliothèque',
+    nav_favorites:'Favoris', nav_settings:'Paramètres',
+    btn_login:'Se connecter', btn_logout:'Déconnexion',
+    search_placeholder:'Rechercher un anime...',
+    welcome:'Bienvenue', welcome_title:'Bienvenue sur Zen Anime',
+    welcome_sub:'Votre plateforme de streaming d\'animes préférés !',
+    available_anime:'Animes Disponibles', library_title:'Bibliothèque',
+    calendar_title:'Calendrier des Sorties',
+    login_desc:'Connectez-vous pour synchroniser vos favoris ☁️',
+    register_desc:'Créez un compte pour sauvegarder vos favoris ☁️',
+    username:'Pseudo', password:'Mot de passe', password_min:'Mot de passe (min 6 car.)',
+    username_ph:'Votre pseudo', password_ph:'Votre mot de passe',
+    choose_username:'Choisir un pseudo', choose_password:'Choisir un mot de passe',
+    btn_signin:'Se connecter', btn_create_account:'Créer un compte',
+    btn_register:'S\'inscrire', btn_back:'Retour', btn_validate:'Valider',
+    staff_access:'Accès Staff', access_code:'Code d\'accès', enter_code:'Entrez le code staff',
+    guest_mode:'Mode Invité', guest_desc:'Connectez-vous pour sauvegarder vos favoris !',
+    login_required:'Connectez-vous', fav_login_desc:'Connectez-vous pour voir vos favoris synchronisés.',
+    my_favorites:'Mes Favoris', settings_title:'Paramètres',
+    theme:'Thème', theme_default:'Par défaut', theme_dark:'Sombre', theme_light:'Clair', theme_blue:'Bleu',
+    language_label:'Langue / Language', search_history:'Historique de recherche',
+    clear_history:'🗑️ Effacer l\'historique', account:'Compte', back:'Retour',
+    add_series:'Ajouter série', add_episode:'Ajouter épisode', manage:'Gérer',
+    create_series:'Créer une nouvelle série', series_name:'Nom de la série',
+    category:'Catégorie', age:'Âge recommandé', cover_image:'Image de couverture',
+    choose_image:'Choisir une image', create_series_btn:'Créer la série',
+    add_episode_title:'Ajouter un épisode', series:'Série', type:'Type',
+    season:'Saison', film:'Film', miniseason:'Mini-saison',
+    season_number:'Numéro de saison', episode:'Épisode', language:'Langue',
+    video_url:'URL vidéo ou code iframe', add_ep_btn:'Ajouter l\'épisode',
+    manage_title:'Gérer les séries et épisodes', delete_series:'Supprimer cette série',
+    create_event:'Créer un événement', day:'Jour', date:'Date', time:'Heure',
+    title:'Titre', description:'Description', add_event_btn:'Ajouter l\'événement',
+    scheduled_events:'Événements programmés',
+    monday:'Lundi', tuesday:'Mardi', wednesday:'Mercredi', thursday:'Jeudi',
+    friday:'Vendredi', saturday:'Samedi', sunday:'Dimanche',
+    seasons:'saison(s)', no_series:'Aucune série disponible.',
+    no_episode:'Aucun épisode.', no_events:'Aucun événement programmé.',
+    no_history:'Aucun historique.', no_favorites:'Aucun favori. Cliquez ❤️ sur un épisode !',
+    fav_unavailable:'Favoris non disponibles.',
+    connected:'Connecté', cloud_sync:'☁️ Vos favoris sont synchronisés sur tous vos appareils',
+    not_connected:'Non connecté — vos favoris ne sont pas sauvegardés.',
+    watch:'▶ Regarder', films:'🎬 Films', select:'Sélectionner',
+    delete_episode_confirm:'Supprimer cet épisode ?', delete_series_confirm:'Supprimer "%s" et TOUS ses épisodes ?',
+    delete_event_confirm:'Supprimer cet événement ?',
+    ep_added:'✅ Épisode %s ajouté !', series_created:'✅ Série "%s" créée !',
+    series_deleted:'✅ Série supprimée !', ep_deleted:'✅ Épisode supprimé !',
+    event_added:'✅ Événement ajouté !', event_deleted:'✅ Événement supprimé',
+    fav_added:'❤️ Ajouté aux favoris !', fav_removed:'💔 Retiré des favoris',
+    staff_activated:'✅ Accès staff activé !', wrong_code:'❌ Code incorrect',
+    fill_fields:'❌ Remplissez tous les champs', username_short:'❌ Pseudo trop court (min 3)',
+    password_short:'❌ Mot de passe trop court (min 6)', connected_toast:'✅ Connecté !',
+    disconnected_toast:'👋 Déconnecté', offline_warning:'⚠️ Sauvegarde locale uniquement',
+    enter_name:'❌ Entrez un nom', fill_all:'❌ Remplissez tous les champs',
+    date_title_required:'❌ Date et titre requis', disconnect_confirm:'Se déconnecter ?',
+  },
+  en: {
+    nav_home:'Home', nav_calendar:'Calendar', nav_library:'Library',
+    nav_favorites:'Favorites', nav_settings:'Settings',
+    btn_login:'Sign in', btn_logout:'Sign out',
+    search_placeholder:'Search an anime...',
+    welcome:'Welcome', welcome_title:'Welcome to Zen Anime',
+    welcome_sub:'Your favorite anime streaming platform!',
+    available_anime:'Available Anime', library_title:'Library',
+    calendar_title:'Release Calendar',
+    login_desc:'Sign in to sync your favorites across all devices ☁️',
+    register_desc:'Create an account to save your favorites online ☁️',
+    username:'Username', password:'Password', password_min:'Password (min 6 chars)',
+    username_ph:'Your username', password_ph:'Your password',
+    choose_username:'Choose a username', choose_password:'Choose a password',
+    btn_signin:'Sign in', btn_create_account:'Create account',
+    btn_register:'Register', btn_back:'Back', btn_validate:'Confirm',
+    staff_access:'Staff Access', access_code:'Access code', enter_code:'Enter staff code',
+    guest_mode:'Guest Mode', guest_desc:'Sign in to save your favorites!',
+    login_required:'Sign in', fav_login_desc:'Sign in to see your synced favorites.',
+    my_favorites:'My Favorites', settings_title:'Settings',
+    theme:'Theme', theme_default:'Default', theme_dark:'Dark', theme_light:'Light', theme_blue:'Blue',
+    language_label:'Language', search_history:'Search history',
+    clear_history:'🗑️ Clear history', account:'Account', back:'Back',
+    add_series:'Add series', add_episode:'Add episode', manage:'Manage',
+    create_series:'Create a new series', series_name:'Series name',
+    category:'Category', age:'Recommended age', cover_image:'Cover image',
+    choose_image:'Choose an image', create_series_btn:'Create series',
+    add_episode_title:'Add an episode', series:'Series', type:'Type',
+    season:'Season', film:'Movie', miniseason:'Mini-season',
+    season_number:'Season number', episode:'Episode', language:'Language',
+    video_url:'Video URL or iframe code', add_ep_btn:'Add episode',
+    manage_title:'Manage series and episodes', delete_series:'Delete this series',
+    create_event:'Create an event', day:'Day', date:'Date', time:'Time',
+    title:'Title', description:'Description', add_event_btn:'Add event',
+    scheduled_events:'Scheduled events',
+    monday:'Monday', tuesday:'Tuesday', wednesday:'Wednesday', thursday:'Thursday',
+    friday:'Friday', saturday:'Saturday', sunday:'Sunday',
+    seasons:'season(s)', no_series:'No series available.',
+    no_episode:'No episodes.', no_events:'No scheduled events.',
+    no_history:'No history.', no_favorites:'No favorites. Click ❤️ on an episode!',
+    fav_unavailable:'Favorites unavailable.',
+    connected:'Signed in', cloud_sync:'☁️ Your favorites are synced across all devices',
+    not_connected:'Not signed in — your favorites are not saved.',
+    watch:'▶ Watch', films:'🎬 Movies', select:'Select',
+    delete_episode_confirm:'Delete this episode?', delete_series_confirm:'Delete "%s" and ALL its episodes?',
+    delete_event_confirm:'Delete this event?',
+    ep_added:'✅ Episode %s added!', series_created:'✅ Series "%s" created!',
+    series_deleted:'✅ Series deleted!', ep_deleted:'✅ Episode deleted!',
+    event_added:'✅ Event added!', event_deleted:'✅ Event deleted',
+    fav_added:'❤️ Added to favorites!', fav_removed:'💔 Removed from favorites',
+    staff_activated:'✅ Staff access activated!', wrong_code:'❌ Wrong code',
+    fill_fields:'❌ Fill in all fields', username_short:'❌ Username too short (min 3)',
+    password_short:'❌ Password too short (min 6)', connected_toast:'✅ Signed in!',
+    disconnected_toast:'👋 Signed out', offline_warning:'⚠️ Local save only',
+    enter_name:'❌ Enter a name', fill_all:'❌ Fill in all fields',
+    date_title_required:'❌ Date and title required', disconnect_confirm:'Sign out?',
+  }
+};
 
-// ─── TOAST ──────────────────────────────────────────────────────────
-function toast(msg, duration=2500) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), duration);
+let currentLang = localStorage.getItem('lang') || 'fr';
+
+function t(key, ...args) {
+  let str = (T[currentLang]||T.fr)[key] || (T.fr[key]) || key;
+  args.forEach(a => { str = str.replace('%s', a); });
+  return str;
 }
 
-// ─── IMAGE ──────────────────────────────────────────────────────────
+function applyLang() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if (k) el.textContent = t(k);
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const k = el.getAttribute('data-i18n-placeholder');
+    if (k) el.placeholder = t(k);
+  });
+  // update select options for eventDay
+  const days = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
+  document.querySelectorAll('#eventDay option:not(:first-child)').forEach((opt, i) => {
+    opt.textContent = t(days[i]);
+  });
+  document.getElementById('langSelect').value = currentLang;
+  document.documentElement.lang = currentLang;
+}
+
+window.changeLang = function() {
+  currentLang = document.getElementById('langSelect').value;
+  localStorage.setItem('lang', currentLang);
+  applyLang();
+  displaySettings();
+  displayRecent();
+  displayLibrary();
+};
+
+// ── VARIABLES ────────────────────────────────────────────────────────
+const STAFF_CODE = "773475";
+let globalSeries = {}, currentUser = null, userFavorites = [], searchHistory = [], isStaff = false, currentImageBase64 = null, calendarEvents = [];
+
+// ── TOAST ────────────────────────────────────────────────────────────
+function toast(msg, duration=2500) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), duration);
+}
+
+// ── IMAGE ────────────────────────────────────────────────────────────
 window.handleImageUpload = function(e) {
-  const file = e.target.files[0];
-  if (!file) { currentImageBase64 = null; return; }
-  document.getElementById('fileName').textContent = '📷 ' + file.name;
+  const file = e.target.files[0]; if (!file) { currentImageBase64=null; return; }
+  document.getElementById('fileName').textContent = '📷 '+file.name;
   const r = new FileReader();
-  r.onload = ev => {
-    currentImageBase64 = ev.target.result;
-    const p = document.getElementById('imagePreview');
-    p.src = currentImageBase64; p.classList.add('show');
-  };
+  r.onload = ev => { currentImageBase64=ev.target.result; const p=document.getElementById('imagePreview'); p.src=currentImageBase64; p.classList.add('show'); };
   r.readAsDataURL(file);
 };
 
-// ─── FIREBASE : AUTH ────────────────────────────────────────────────
+// ── AUTH ─────────────────────────────────────────────────────────────
 window.register = async function() {
-  const username = document.getElementById('registerUsername').value.trim();
-  const password = document.getElementById('registerPassword').value.trim();
-  if (!username || !password) { toast('❌ Remplissez tous les champs'); return; }
-  if (username.length < 3) { toast('❌ Pseudo trop court (min 3)'); return; }
-  if (password.length < 6) { toast('❌ Mot de passe trop court (min 6)'); return; }
-  const btn = document.getElementById('registerBtn');
-  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+  const u=document.getElementById('registerUsername').value.trim();
+  const p=document.getElementById('registerPassword').value.trim();
+  if (!u||!p){toast(t('fill_fields'));return;}
+  if (u.length<3){toast(t('username_short'));return;}
+  if (p.length<6){toast(t('password_short'));return;}
+  const btn=document.getElementById('registerBtn');
+  btn.disabled=true; btn.innerHTML='<span class="spinner"></span>';
   try {
-    const email = username.toLowerCase().replace(/\s/g,'_') + '@zenanime.app';
-    const cred = await createUserWithEmailAndPassword(auth, email, password);
-    await updateProfile(cred.user, { displayName: username });
-    // Créer document utilisateur
-    await setDoc(doc(db, 'users', cred.user.uid), { username, favorites: [], searchHistory: [], createdAt: Date.now() });
-    toast('✅ Compte créé !');
-    closeLoginModal();
+    const email=u.toLowerCase().replace(/\s/g,'_')+'@zenanime.app';
+    const cred=await createUserWithEmailAndPassword(auth,email,p);
+    await updateProfile(cred.user,{displayName:u});
+    await setDoc(doc(db,'users',cred.user.uid),{username:u,favorites:[],searchHistory:[],createdAt:Date.now()});
+    toast(t('connected_toast')); closeLoginModal();
   } catch(err) {
-    const msgs = { 'auth/email-already-in-use': '❌ Ce pseudo est déjà pris', 'auth/weak-password': '❌ Mot de passe trop faible' };
-    toast(msgs[err.code] || '❌ ' + err.message);
-  } finally {
-    btn.disabled = false; btn.textContent = "S'inscrire";
-  }
+    const msgs={'auth/email-already-in-use':t('fill_fields')+'(pseudo pris)','auth/weak-password':t('password_short')};
+    toast(msgs[err.code]||'❌ '+err.message);
+  } finally { btn.disabled=false; btn.textContent=t('btn_register'); }
 };
 
 window.login = async function() {
-  const username = document.getElementById('loginUsername').value.trim();
-  const password = document.getElementById('loginPassword').value.trim();
-  if (!username || !password) { toast('❌ Remplissez tous les champs'); return; }
-  const btn = document.getElementById('loginBtn');
-  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+  const u=document.getElementById('loginUsername').value.trim();
+  const p=document.getElementById('loginPassword').value.trim();
+  if (!u||!p){toast(t('fill_fields'));return;}
+  const btn=document.getElementById('loginBtn');
+  btn.disabled=true; btn.innerHTML='<span class="spinner"></span>';
   try {
-    const email = username.toLowerCase().replace(/\s/g,'_') + '@zenanime.app';
-    await signInWithEmailAndPassword(auth, email, password);
-    toast('✅ Connecté !');
-    closeLoginModal();
+    const email=u.toLowerCase().replace(/\s/g,'_')+'@zenanime.app';
+    await signInWithEmailAndPassword(auth,email,p);
+    toast(t('connected_toast')); closeLoginModal();
   } catch(err) {
-    const msgs = { 'auth/user-not-found':'❌ Compte introuvable','auth/wrong-password':'❌ Mot de passe incorrect','auth/invalid-credential':'❌ Pseudo ou mot de passe incorrect' };
-    toast(msgs[err.code] || '❌ Erreur de connexion');
-  } finally {
-    btn.disabled = false; btn.textContent = 'Se connecter';
-  }
+    toast('❌ '+t('fill_fields').replace('❌ ',''));
+    toast(currentLang==='fr'?'❌ Pseudo ou mot de passe incorrect':'❌ Wrong username or password');
+  } finally { btn.disabled=false; btn.textContent=t('btn_signin'); }
 };
 
 window.logout = async function() {
-  if (!confirm('Se déconnecter ?')) return;
-  await signOut(auth);
-  isStaff = false;
-  localStorage.removeItem('isStaff');
-  toast('👋 Déconnecté');
+  if (!confirm(t('disconnect_confirm'))) return;
+  await signOut(auth); isStaff=false; localStorage.removeItem('isStaff');
+  toast(t('disconnected_toast'));
 };
 
-// ─── FIREBASE : onAuthStateChanged ──────────────────────────────────
 onAuthStateChanged(auth, async (user) => {
-  currentUser = user;
+  currentUser=user;
   if (user) {
-    // Récupérer données utilisateur
-    const snap = await getDoc(doc(db, 'users', user.uid));
-    if (snap.exists()) {
-      const data = snap.data();
-      userFavorites = data.favorites || [];
-      searchHistory = data.searchHistory || [];
-    }
-    const displayName = user.displayName || user.email;
-    document.getElementById('usernameDisplay').textContent = '👤 ' + displayName;
+    const snap=await getDoc(doc(db,'users',user.uid));
+    if (snap.exists()) { const d=snap.data(); userFavorites=d.favorites||[]; searchHistory=d.searchHistory||[]; }
+    const name=user.displayName||user.email;
+    document.getElementById('usernameDisplay').textContent='👤 '+name;
     document.getElementById('logoutBtn').classList.remove('hidden');
     document.getElementById('loginHeaderBtn').classList.add('hidden');
     document.getElementById('guestBanner').classList.add('hidden');
   } else {
-    userFavorites = [];
-    searchHistory = JSON.parse(localStorage.getItem('searchHistory') || '[]');
-    document.getElementById('usernameDisplay').textContent = '';
+    userFavorites=[]; searchHistory=JSON.parse(localStorage.getItem('searchHistory')||'[]');
+    document.getElementById('usernameDisplay').textContent='';
     document.getElementById('logoutBtn').classList.add('hidden');
     document.getElementById('loginHeaderBtn').classList.remove('hidden');
     document.getElementById('guestBanner').classList.remove('hidden');
   }
-  // Charger séries depuis Firestore (global, pas lié à l'user)
   await loadGlobalData();
-  updateUI();
+  isStaff=localStorage.getItem('isStaff')==='true';
+  const theme=localStorage.getItem('theme')||'default';
+  document.body.setAttribute('data-theme',theme);
+  document.getElementById('themeSelect').value=theme;
+  applyLang();
+  displayRecent(); displayLibrary();
 });
 
-// ─── FIREBASE : SAVE / LOAD USER ────────────────────────────────────
-async function saveUserData() {
-  if (!currentUser) {
-    localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
-    return;
-  }
-  await setDoc(doc(db, 'users', currentUser.uid), {
-    username: currentUser.displayName,
-    favorites: userFavorites,
-    searchHistory: searchHistory,
-    updatedAt: Date.now()
-  }, { merge: true });
-}
-
-// ─── FIREBASE : DONNÉES GLOBALES (séries + calendrier) ──────────────
+// ── FIREBASE DATA ────────────────────────────────────────────────────
 async function loadGlobalData() {
   try {
-    const snap = await getDoc(doc(db, 'global', 'data'));
-    if (snap.exists()) {
-      const d = snap.data();
-      globalSeries = d.series || {};
-      calendarEvents = d.calendarEvents || [];
-    }
+    const snap=await getDoc(doc(db,'global','data'));
+    if (snap.exists()) { const d=snap.data(); globalSeries=d.series||{}; calendarEvents=d.calendarEvents||[]; }
   } catch(e) {
-    // Fallback localStorage si offline
-    globalSeries = JSON.parse(localStorage.getItem('globalSeries') || '{}');
-    calendarEvents = JSON.parse(localStorage.getItem('calendarEvents') || '[]');
+    globalSeries=JSON.parse(localStorage.getItem('globalSeries')||'{}');
+    calendarEvents=JSON.parse(localStorage.getItem('calendarEvents')||'[]');
   }
 }
 
 async function saveGlobalData() {
   try {
-    await setDoc(doc(db, 'global', 'data'), {
-      series: globalSeries,
-      calendarEvents: calendarEvents,
-      updatedAt: Date.now()
-    });
-    // Backup local aussi
-    localStorage.setItem('globalSeries', JSON.stringify(globalSeries));
-    localStorage.setItem('calendarEvents', JSON.stringify(calendarEvents));
+    await setDoc(doc(db,'global','data'),{series:globalSeries,calendarEvents,updatedAt:Date.now()});
+    localStorage.setItem('globalSeries',JSON.stringify(globalSeries));
+    localStorage.setItem('calendarEvents',JSON.stringify(calendarEvents));
   } catch(e) {
-    // Si offline, sauvegarde locale seulement
-    localStorage.setItem('globalSeries', JSON.stringify(globalSeries));
-    localStorage.setItem('calendarEvents', JSON.stringify(calendarEvents));
-    toast('⚠️ Sauvegarde locale uniquement (hors ligne ?)');
+    localStorage.setItem('globalSeries',JSON.stringify(globalSeries));
+    localStorage.setItem('calendarEvents',JSON.stringify(calendarEvents));
+    toast(t('offline_warning'));
   }
 }
 
-// ─── UI ─────────────────────────────────────────────────────────────
-function updateUI() {
-  displayRecent();
-  displayLibrary();
-  isStaff = localStorage.getItem('isStaff') === 'true';
-  const theme = localStorage.getItem('theme') || 'default';
-  document.body.setAttribute('data-theme', theme);
-  document.getElementById('themeSelect').value = theme;
+async function saveUserData() {
+  if (!currentUser) { localStorage.setItem('searchHistory',JSON.stringify(searchHistory)); return; }
+  await setDoc(doc(db,'users',currentUser.uid),{username:currentUser.displayName,favorites:userFavorites,searchHistory,updatedAt:Date.now()},{merge:true});
 }
 
-// ─── MENU ────────────────────────────────────────────────────────────
-window.updateActiveMenu = function(s) {
-  document.querySelectorAll('.menu a').forEach(a => a.classList.remove('active'));
-  const el = document.querySelector(`.menu a[onclick*="'${s}'"]`);
+// ── MENU / SECTIONS ──────────────────────────────────────────────────
+function updateActiveMenu(s) {
+  document.querySelectorAll('.top-menu a').forEach(a=>a.classList.remove('active'));
+  const el=document.querySelector(`.top-menu a[onclick*="'${s}'"]`);
   if (el) el.classList.add('active');
+  // bottom nav
+  document.querySelectorAll('.bottom-nav a').forEach(a=>a.classList.remove('active'));
+  const bn=document.getElementById('bnav-'+s);
+  if (bn) bn.classList.add('active');
+}
+
+window.switchStaffTab = function(id,btn) {
+  document.querySelectorAll('.staff-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.staff-tab').forEach(tb=>tb.classList.remove('active'));
+  document.getElementById(id).classList.add('active'); btn.classList.add('active');
+  if (id==='tab-add-ep'||id==='tab-manage') updateSeriesSelects();
+  if (id==='tab-calendar') displayStaffEvents();
 };
 
-// ─── STAFF TABS ──────────────────────────────────────────────────────
-window.switchStaffTab = function(id, btn) {
-  document.querySelectorAll('.staff-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.staff-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
-  if (id === 'tab-add-ep' || id === 'tab-manage') updateSeriesSelects();
-  if (id === 'tab-calendar') displayStaffEvents();
-};
-
-// ─── MODALS ──────────────────────────────────────────────────────────
-window.showLoginModal = function() { document.getElementById('loginModal').classList.remove('hidden'); };
-window.closeLoginModal = function() {
+window.showLoginModal=function(){document.getElementById('loginModal').classList.remove('hidden');};
+window.closeLoginModal=function(){
   document.getElementById('loginModal').classList.add('hidden');
-  ['loginUsername','loginPassword','registerUsername','registerPassword'].forEach(id => document.getElementById(id).value = '');
+  ['loginUsername','loginPassword','registerUsername','registerPassword'].forEach(id=>document.getElementById(id).value='');
   showLogin();
 };
-window.showLogin = function() { document.getElementById('loginForm').classList.remove('hidden'); document.getElementById('registerForm').classList.add('hidden'); };
-window.showRegister = function() { document.getElementById('loginForm').classList.add('hidden'); document.getElementById('registerForm').classList.remove('hidden'); };
-window.showStaffModal = function() { document.getElementById('staffModal').classList.remove('hidden'); };
-window.closeStaffModal = function() { document.getElementById('staffModal').classList.add('hidden'); document.getElementById('staffCode').value = ''; };
+window.showLogin=function(){document.getElementById('loginForm').classList.remove('hidden');document.getElementById('registerForm').classList.add('hidden');};
+window.showRegister=function(){document.getElementById('loginForm').classList.add('hidden');document.getElementById('registerForm').classList.remove('hidden');};
+window.showStaffModal=function(){document.getElementById('staffModal').classList.remove('hidden');};
+window.closeStaffModal=function(){document.getElementById('staffModal').classList.add('hidden');document.getElementById('staffCode').value='';};
 
-// ─── STAFF VERIFY ────────────────────────────────────────────────────
-window.verifyStaffCode = function() {
-  if (document.getElementById('staffCode').value.trim() === STAFF_CODE) {
-    isStaff = true;
-    localStorage.setItem('isStaff', 'true');
-    closeStaffModal();
-    toast('✅ Accès staff activé !');
-    updateSeriesSelects();
-    showSection('add');
-  } else {
-    toast('❌ Code incorrect');
-  }
+window.verifyStaffCode=function(){
+  if (document.getElementById('staffCode').value.trim()===STAFF_CODE){
+    isStaff=true; localStorage.setItem('isStaff','true');
+    closeStaffModal(); toast(t('staff_activated')); updateSeriesSelects(); showSection('add');
+  } else { toast(t('wrong_code')); }
 };
 
-// ─── SECTIONS ────────────────────────────────────────────────────────
-window.showSection = function(section) {
-  document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+window.showSection=function(section){
+  document.querySelectorAll('.section').forEach(s=>s.classList.add('hidden'));
   document.getElementById(section).classList.remove('hidden');
   updateActiveMenu(section);
-  if (section === 'favorites') {
-    if (!currentUser) {
+  if (section==='favorites'){
+    if (!currentUser){
       document.getElementById('favGuestWarning').classList.remove('hidden');
       document.getElementById('favContent').classList.add('hidden');
     } else {
@@ -620,233 +796,172 @@ window.showSection = function(section) {
       displayFavorites();
     }
   }
-  if (section === 'library') displayLibrary();
-  else if (section === 'home') displayRecent();
-  else if (section === 'calendar') displayCalendar();
-  else if (section === 'settings') displaySettings();
-  else if (section === 'add') {
-    if (!isStaff) { showStaffModal(); showSection('home'); return; }
-    updateSeriesSelects();
-  }
+  if (section==='library') displayLibrary();
+  else if (section==='home') displayRecent();
+  else if (section==='calendar') displayCalendar();
+  else if (section==='settings') displaySettings();
+  else if (section==='add'){if (!isStaff){showStaffModal();showSection('home');return;}updateSeriesSelects();}
 };
 
 function displaySettings() {
-  const hc = document.getElementById('historyContent');
-  hc.innerHTML = searchHistory.length
-    ? searchHistory.map(q => `<div class="hist-item">🔍 ${q}</div>`).join('')
-    : '<p class="txt-muted">Aucun historique.</p>';
-  const ac = document.getElementById('settingsAccountArea');
-  if (currentUser) {
-    ac.innerHTML = `<p style="margin-bottom:10px">Connecté : <strong>👤 ${currentUser.displayName||currentUser.email}</strong>${isStaff ? ' <span class="badge badge-cat">Staff</span>' : ''}</p>
-    <p class="txt-muted" style="margin-bottom:10px">☁️ Vos favoris sont synchronisés sur tous vos appareils</p>
-    <button class="btn btn-danger btn-small" onclick="logout()">🚪 Se déconnecter</button>`;
+  const hc=document.getElementById('historyContent');
+  hc.innerHTML=searchHistory.length?searchHistory.map(q=>`<div class="hist-item">🔍 ${q}</div>`).join(''):`<p class="txt-muted">${t('no_history')}</p>`;
+  const ac=document.getElementById('settingsAccountArea');
+  if (currentUser){
+    ac.innerHTML=`<p style="margin-bottom:10px">${t('connected')} : <strong>👤 ${currentUser.displayName||currentUser.email}</strong>${isStaff?' <span class="badge badge-cat">Staff</span>':''}</p>
+    <p class="txt-muted" style="margin-bottom:10px">${t('cloud_sync')}</p>
+    <button class="btn btn-danger btn-small" onclick="logout()">${t('btn_logout')}</button>`;
   } else {
-    ac.innerHTML = `<p class="txt-muted" style="margin-bottom:10px">Non connecté — vos favoris ne sont pas sauvegardés.</p>
-    <button class="btn btn-small" onclick="showLoginModal()">🔑 Se connecter</button>`;
+    ac.innerHTML=`<p class="txt-muted" style="margin-bottom:10px">${t('not_connected')}</p>
+    <button class="btn btn-small" onclick="showLoginModal()">${t('btn_login')}</button>`;
   }
 }
 
-window.clearHistory = async function() {
-  searchHistory = [];
-  await saveUserData();
-  displaySettings();
-};
+window.clearHistory=async function(){searchHistory=[];await saveUserData();displaySettings();};
+window.changeTheme=function(){const th=document.getElementById('themeSelect').value;document.body.setAttribute('data-theme',th);localStorage.setItem('theme',th);};
 
-window.changeTheme = function() {
-  const t = document.getElementById('themeSelect').value;
-  document.body.setAttribute('data-theme', t);
-  localStorage.setItem('theme', t);
-};
-
-// ─── SEARCH ──────────────────────────────────────────────────────────
-window.searchAnime = async function() {
-  const q = document.getElementById('searchInput').value.toLowerCase().trim();
-  const res = document.getElementById('searchResults');
-  if (!q) { res.classList.add('hidden'); return; }
-  if (!searchHistory.includes(q)) {
-    searchHistory.unshift(q);
-    if (searchHistory.length > 20) searchHistory.pop();
-    await saveUserData();
-  }
-  const matches = Object.keys(globalSeries).filter(n => n.toLowerCase().includes(q));
-  if (!matches.length) { res.innerHTML = '<div class="search-result-item">Aucun résultat</div>'; res.classList.remove('hidden'); return; }
-  res.innerHTML = matches.map(n => `<div class="search-result-item" onclick="openFromSearch('${esc(n)}')">🎬 ${n}</div>`).join('');
+// ── SEARCH ───────────────────────────────────────────────────────────
+window.searchAnime=async function(){
+  const q=document.getElementById('searchInput').value.toLowerCase().trim();
+  const res=document.getElementById('searchResults');
+  if (!q){res.classList.add('hidden');return;}
+  if (!searchHistory.includes(q)){searchHistory.unshift(q);if(searchHistory.length>20)searchHistory.pop();await saveUserData();}
+  const matches=Object.keys(globalSeries).filter(n=>n.toLowerCase().includes(q));
+  if (!matches.length){res.innerHTML=`<div class="search-result-item">${currentLang==='fr'?'Aucun résultat':'No results'}</div>`;res.classList.remove('hidden');return;}
+  res.innerHTML=matches.map(n=>`<div class="search-result-item" onclick="openFromSearch('${esc(n)}')">🎬 ${n}</div>`).join('');
   res.classList.remove('hidden');
 };
+window.openFromSearch=function(name){document.getElementById('searchResults').classList.add('hidden');document.getElementById('searchInput').value='';showSeriesSeasons(name);};
 
-window.openFromSearch = function(name) {
-  document.getElementById('searchResults').classList.add('hidden');
-  document.getElementById('searchInput').value = '';
-  showSeriesSeasons(name);
-};
+function esc(s){return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
+function getCatLabel(c){return {romance:'Romance',action:'Action',isekai:'Isekai',horror:'Horror',comedy:'Comédie',drama:'Drama',fantasy:'Fantasy',scifi:'Sci-Fi',slice:'Slice of Life',sport:'Sport',mecha:'Mecha',mystery:'Mystère'}[c]||c;}
 
-// ─── HELPERS ─────────────────────────────────────────────────────────
-function esc(s) { return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
-function getCatLabel(c) {
-  return {romance:'Romance',action:'Action',isekai:'Isekai',horror:'Horror',comedy:'Comédie',drama:'Drama',fantasy:'Fantasy',scifi:'Sci-Fi',slice:'Slice of Life',sport:'Sport',mecha:'Mecha',mystery:'Mystère'}[c]||c;
+// ── LIBRARY ──────────────────────────────────────────────────────────
+function displayLibrary(){
+  const c=document.getElementById('libraryContent');c.innerHTML='';
+  const keys=Object.keys(globalSeries);
+  if (!keys.length){c.innerHTML=`<p class="txt-muted" style="text-align:center;padding:20px">${t('no_series')}</p>`;return;}
+  keys.forEach(n=>renderCard(c,n));
 }
-
-// ─── LIBRARY ─────────────────────────────────────────────────────────
-function displayLibrary() {
-  const c = document.getElementById('libraryContent'); c.innerHTML = '';
-  const keys = Object.keys(globalSeries);
-  if (!keys.length) { c.innerHTML = '<p class="txt-muted" style="text-align:center;padding:20px">Aucune série.</p>'; return; }
-  keys.forEach(n => renderCard(c, n));
+function displayRecent(){
+  const c=document.getElementById('recentSeries');c.innerHTML='';
+  const keys=Object.keys(globalSeries).slice(-12);
+  if (!keys.length){c.innerHTML=`<p class="txt-muted" style="text-align:center;padding:20px">${t('no_series')}</p>`;return;}
+  keys.forEach(n=>renderCard(c,n));
 }
-
-function displayRecent() {
-  const c = document.getElementById('recentSeries'); c.innerHTML = '';
-  const keys = Object.keys(globalSeries).slice(-12);
-  if (!keys.length) { c.innerHTML = '<p class="txt-muted" style="text-align:center;padding:20px">Aucune série.</p>'; return; }
-  keys.forEach(n => renderCard(c, n));
-}
-
-function renderCard(container, name) {
-  const s = globalSeries[name];
-  const sc = Object.keys(s.seasons||{}).filter(k => !isNaN(k)).length;
-  const d = document.createElement('div');
-  d.className = 'series-card';
-  d.onclick = () => showSeriesSeasons(name);
-  d.innerHTML = `<div class="series-image">${s.image ? `<img src="${s.image}" alt="${name}">` : '🎬'}</div>
-    <div class="series-info">
-      <div class="series-title">${name}</div>
-      <div class="series-meta">
-        ${s.category?`<span class="badge badge-cat">${getCatLabel(s.category)}</span>`:''}
-        ${s.age?`<span class="badge badge-age">${s.age}</span>`:''}
-      </div>
-      <div style="font-size:11px;color:var(--text2);margin-top:4px">${sc} saison(s)</div>
-    </div>`;
+function renderCard(container,name){
+  const s=globalSeries[name];
+  const sc=Object.keys(s.seasons||{}).filter(k=>!isNaN(k)).length;
+  const d=document.createElement('div');d.className='series-card';d.onclick=()=>showSeriesSeasons(name);
+  d.innerHTML=`<div class="series-image">${s.image?`<img src="${s.image}" alt="${name}">`:'🎬'}</div>
+    <div class="series-info"><div class="series-title">${name}</div>
+    <div class="series-meta">${s.category?`<span class="badge badge-cat">${getCatLabel(s.category)}</span>`:''}${s.age?`<span class="badge badge-age">${s.age}</span>`:''}</div>
+    <div style="font-size:11px;color:var(--text2);margin-top:4px">${sc} ${t('seasons')}</div></div>`;
   container.appendChild(d);
 }
 
-// ─── SÉRIES ──────────────────────────────────────────────────────────
-window.showSeriesSeasons = function(name) {
-  const s = globalSeries[name];
-  const seasons = s.seasons||{};
-  document.getElementById('animeHeaderImage').innerHTML = s.image
-    ? `<div class="anime-header"><img src="${s.image}" alt="${name}"></div>`
-    : `<div class="anime-header">🎬</div>`;
-  document.getElementById('playerTitle').innerHTML = `<div>${name}</div>
-    <div class="series-meta" style="margin-top:8px">
-      ${s.category?`<span class="badge badge-cat">${getCatLabel(s.category)}</span>`:''}
-      ${s.age?`<span class="badge badge-age">${s.age}</span>`:''}
-    </div>`;
-  const allKeys = Object.keys(seasons);
-  const films = allKeys.filter(k=>k==='FILM');
-  const regs = allKeys.filter(k=>!isNaN(k)&&Array.isArray(seasons[k])).sort((a,b)=>parseInt(a)-parseInt(b));
-  const minis = allKeys.filter(k=>k.startsWith('MINI-')).sort();
-  let html = '<div class="row" style="margin-bottom:16px">';
-  films.forEach(k => html += `<button class="btn btn-small" onclick="showEpisodes('${esc(name)}','${k}')">🎬 Films</button>`);
-  regs.forEach(sv => html += `<button class="btn btn-small" onclick="showEpisodes('${esc(name)}','${sv}')">Saison ${sv}</button>`);
-  minis.forEach(k => html += `<button class="btn btn-small" onclick="showEpisodes('${esc(name)}','${k}')">Mini-saison ${k.replace('MINI-','')}</button>`);
-  html += '</div>';
-  document.getElementById('playerContent').innerHTML = html;
+// ── PLAYER : PAS DE BOUTON SUPPRIMER ─────────────────────────────────
+window.showSeriesSeasons=function(name){
+  const s=globalSeries[name];const seasons=s.seasons||{};
+  document.getElementById('animeHeaderImage').innerHTML=s.image?`<div class="anime-header"><img src="${s.image}" alt="${name}"></div>`:`<div class="anime-header">🎬</div>`;
+  document.getElementById('playerTitle').innerHTML=`<div>${name}</div><div class="series-meta" style="margin-top:8px">${s.category?`<span class="badge badge-cat">${getCatLabel(s.category)}</span>`:''}${s.age?`<span class="badge badge-age">${s.age}</span>`:''}</div>`;
+  const allKeys=Object.keys(seasons);
+  const films=allKeys.filter(k=>k==='FILM');
+  const regs=allKeys.filter(k=>!isNaN(k)&&Array.isArray(seasons[k])).sort((a,b)=>parseInt(a)-parseInt(b));
+  const minis=allKeys.filter(k=>k.startsWith('MINI-')).sort();
+  let html='<div class="row" style="margin-bottom:14px">';
+  films.forEach(k=>html+=`<button class="btn btn-small" onclick="showEpisodes('${esc(name)}','${k}')">${t('films')}</button>`);
+  regs.forEach(sv=>html+=`<button class="btn btn-small" onclick="showEpisodes('${esc(name)}','${sv}')">${t('season')} ${sv}</button>`);
+  minis.forEach(k=>html+=`<button class="btn btn-small" onclick="showEpisodes('${esc(name)}','${k}')">Mini-${k.replace('MINI-','')}</button>`);
+  html+='</div>';
+  document.getElementById('playerContent').innerHTML=html;
   showSection('player');
 };
 
-window.showEpisodes = function(seriesName, season) {
-  const s = globalSeries[seriesName];
-  const episodes = (s.seasons||{})[season]||[];
-  document.getElementById('animeHeaderImage').innerHTML = s.image
-    ? `<div class="anime-header"><img src="${s.image}" alt="${seriesName}"></div>`
-    : `<div class="anime-header">🎬</div>`;
-  const seasonLabel = season==='FILM'?'Films':season.startsWith('MINI-')?`Mini-saison ${season.replace('MINI-','')}`:`Saison ${season}`;
-  document.getElementById('playerTitle').innerHTML = `<div>${seriesName} — ${seasonLabel}</div>`;
-  const byLang = {};
-  episodes.forEach(ep => { if (!byLang[ep.language]) byLang[ep.language]=[]; byLang[ep.language].push(ep); });
-  const langs = Object.keys(byLang);
-  let html = `<button class="btn btn-ghost btn-small" style="margin-bottom:12px" onclick="showSeriesSeasons('${esc(seriesName)}')">← Saisons</button>`;
-  if (!langs.length) { html += '<p class="txt-muted">Aucun épisode.</p>'; document.getElementById('playerContent').innerHTML = html; return; }
-  html += '<div class="lang-tabs">';
-  langs.forEach((lang, i) => html += `<button class="lang-tab ${i===0?'active':''}" onclick="switchLangTab(event,'ep-lang-${lang}')">${lang}</button>`);
-  html += '</div>';
-  langs.forEach((lang, li) => {
-    html += `<div class="lang-panel ${li===0?'active':''}" id="ep-lang-${lang}">`;
-    byLang[lang].forEach((ep, idx) => {
-      const isFav = userFavorites.some(f => String(f)===String(ep.id));
-      const epLabel = season==='FILM'?`Film ${ep.episode}`:`Épisode ${ep.episode}`;
-      html += `<div class="ep-item">
+window.showEpisodes=function(seriesName,season){
+  const s=globalSeries[seriesName];const episodes=(s.seasons||{})[season]||[];
+  document.getElementById('animeHeaderImage').innerHTML=s.image?`<div class="anime-header"><img src="${s.image}" alt="${seriesName}"></div>`:`<div class="anime-header">🎬</div>`;
+  const seasonLabel=season==='FILM'?t('films'):season.startsWith('MINI-')?`Mini-${season.replace('MINI-','')}`:`${t('season')} ${season}`;
+  document.getElementById('playerTitle').innerHTML=`<div>${seriesName} — ${seasonLabel}</div>`;
+  const byLang={};
+  episodes.forEach(ep=>{if (!byLang[ep.language])byLang[ep.language]=[];byLang[ep.language].push(ep);});
+  const langs=Object.keys(byLang);
+  let html=`<button class="btn btn-ghost btn-small" style="margin-bottom:12px" onclick="showSeriesSeasons('${esc(seriesName)}')">← ${t('back')}</button>`;
+  if (!langs.length){html+=`<p class="txt-muted">${t('no_episode')}</p>`;document.getElementById('playerContent').innerHTML=html;return;}
+  html+='<div class="lang-tabs">';
+  langs.forEach((lang,i)=>html+=`<button class="lang-tab ${i===0?'active':''}" onclick="switchLangTab(event,'ep-lang-${lang}')">${lang}</button>`);
+  html+='</div>';
+  langs.forEach((lang,li)=>{
+    html+=`<div class="lang-panel ${li===0?'active':''}" id="ep-lang-${lang}">`;
+    byLang[lang].forEach((ep,idx)=>{
+      const isFav=userFavorites.some(f=>String(f)===String(ep.id));
+      const epLabel=season==='FILM'?`${t('film')} ${ep.episode}`:`${t('episode')} ${ep.episode}`;
+      // PAS de bouton supprimer ici — uniquement dans le panel staff
+      html+=`<div class="ep-item">
         <div class="ep-title">${epLabel}</div>
         <div class="ep-controls">
           ${idx>0?`<button class="btn btn-teal btn-small" onclick="playEp('${esc(seriesName)}','${season}','${lang}',${idx-1})">◀</button>`:''}
-          <button class="btn btn-small" onclick="playEp('${esc(seriesName)}','${season}','${lang}',${idx})">▶ Regarder</button>
+          <button class="btn btn-small" onclick="playEp('${esc(seriesName)}','${season}','${lang}',${idx})">${t('watch')}</button>
           ${idx<byLang[lang].length-1?`<button class="btn btn-teal btn-small" onclick="playEp('${esc(seriesName)}','${season}','${lang}',${idx+1})">▶▶</button>`:''}
           ${currentUser?`<button class="fav-btn ${isFav?'active':''}" onclick="toggleFav(${ep.id},this)" title="Favori">❤️</button>`:''}
-          ${isStaff?`<button class="btn btn-danger btn-small" onclick="deleteEpisode('${esc(seriesName)}','${season}',${ep.id})">🗑️</button>`:''}
         </div>
       </div>`;
     });
-    html += '</div>';
+    html+='</div>';
   });
-  document.getElementById('playerContent').innerHTML = html;
+  document.getElementById('playerContent').innerHTML=html;
 };
 
-window.switchLangTab = function(e, panelId) {
-  document.querySelectorAll('.lang-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.lang-panel').forEach(p => p.classList.remove('active'));
-  e.target.classList.add('active');
-  document.getElementById(panelId).classList.add('active');
+window.switchLangTab=function(e,panelId){
+  document.querySelectorAll('.lang-tab').forEach(tb=>tb.classList.remove('active'));
+  document.querySelectorAll('.lang-panel').forEach(p=>p.classList.remove('active'));
+  e.target.classList.add('active');document.getElementById(panelId).classList.add('active');
 };
 
-window.playEp = function(seriesName, season, language, idx) {
-  const s = globalSeries[seriesName];
-  const eps = ((s.seasons||{})[season]||[]).filter(e=>e.language===language);
-  const ep = eps[idx]; if (!ep) return;
+window.playEp=function(seriesName,season,language,idx){
+  const s=globalSeries[seriesName];
+  const eps=((s.seasons||{})[season]||[]).filter(e=>e.language===language);
+  const ep=eps[idx];if (!ep)return;
   let videoHtml;
-  if (ep.url.includes('<iframe')) {
-    videoHtml = ep.url.replace(/class="[^"]*"/g,'').replace('<iframe','<iframe class="video-player"');
-  } else {
-    const m = ep.url.match(/video(\d+)/);
-    videoHtml = m
-      ? `<iframe class="video-player" src="https://video.sibnet.ru/shell.php?videoid=${m[1]}" frameborder="0" scrolling="no" allowfullscreen></iframe>`
-      : `<iframe class="video-player" src="${ep.url}" frameborder="0" allowfullscreen></iframe>`;
-  }
-  const isFav = userFavorites.some(f => String(f)===String(ep.id));
-  const epLabel = season==='FILM'?`Film ${ep.episode}`:`Épisode ${ep.episode}`;
-  let ctrl = `<div class="row" style="margin-top:12px">
-    <button class="btn btn-ghost btn-small" onclick="showEpisodes('${esc(seriesName)}','${season}')">← Liste</button>
-    ${idx>0?`<button class="btn btn-teal btn-small" onclick="playEp('${esc(seriesName)}','${season}','${language}',${idx-1})">◀ Précédent</button>`:''}
-    ${idx<eps.length-1?`<button class="btn btn-teal btn-small" onclick="playEp('${esc(seriesName)}','${season}','${language}',${idx+1})">Suivant ▶</button>`:''}
+  if (ep.url.includes('<iframe')){videoHtml=ep.url.replace(/class="[^"]*"/g,'').replace('<iframe','<iframe class="video-player"');}
+  else {const m=ep.url.match(/video(\d+)/);videoHtml=m?`<iframe class="video-player" src="https://video.sibnet.ru/shell.php?videoid=${m[1]}" frameborder="0" scrolling="no" allowfullscreen></iframe>`:`<iframe class="video-player" src="${ep.url}" frameborder="0" allowfullscreen></iframe>`;}
+  const isFav=userFavorites.some(f=>String(f)===String(ep.id));
+  const epLabel=season==='FILM'?`${t('film')} ${ep.episode}`:`${t('episode')} ${ep.episode}`;
+  // PAS de bouton supprimer dans le lecteur
+  let ctrl=`<div class="row" style="margin-top:12px">
+    <button class="btn btn-ghost btn-small" onclick="showEpisodes('${esc(seriesName)}','${season}')">← ${t('back')}</button>
+    ${idx>0?`<button class="btn btn-teal btn-small" onclick="playEp('${esc(seriesName)}','${season}','${language}',${idx-1})">◀ ${currentLang==='fr'?'Précédent':'Previous'}</button>`:''}
+    ${idx<eps.length-1?`<button class="btn btn-teal btn-small" onclick="playEp('${esc(seriesName)}','${season}','${language}',${idx+1})">${currentLang==='fr'?'Suivant':'Next'} ▶</button>`:''}
     ${currentUser?`<button class="fav-btn ${isFav?'active':''}" onclick="toggleFav(${ep.id},this)" title="Favori">❤️</button>`:''}
   </div>`;
-  document.getElementById('playerContent').innerHTML =
-    `<div style="font-weight:700;margin-bottom:8px">${epLabel} <span class="badge badge-lang">${language}</span></div>${videoHtml}${ctrl}`;
+  document.getElementById('playerContent').innerHTML=`<div style="font-weight:700;margin-bottom:8px">${epLabel} <span class="badge badge-lang">${language}</span></div>${videoHtml}${ctrl}`;
 };
 
-// ─── FAVORIS ─────────────────────────────────────────────────────────
-window.toggleFav = async function(episodeId, btn) {
-  if (!currentUser) { showLoginModal(); return; }
-  btn.classList.remove('beat');
-  void btn.offsetWidth;
-  btn.classList.add('beat');
-  btn.addEventListener('animationend', () => btn.classList.remove('beat'), {once:true});
-  const idx = userFavorites.findIndex(f => String(f)===String(episodeId));
-  if (idx > -1) {
-    userFavorites.splice(idx, 1);
-    btn.classList.remove('active');
-    toast('💔 Retiré des favoris');
-  } else {
-    userFavorites.push(episodeId);
-    btn.classList.add('active');
-    toast('❤️ Ajouté aux favoris !');
-  }
+// ── FAVORIS ──────────────────────────────────────────────────────────
+window.toggleFav=async function(episodeId,btn){
+  if (!currentUser){showLoginModal();return;}
+  btn.classList.remove('beat');void btn.offsetWidth;btn.classList.add('beat');
+  btn.addEventListener('animationend',()=>btn.classList.remove('beat'),{once:true});
+  const idx=userFavorites.findIndex(f=>String(f)===String(episodeId));
+  if (idx>-1){userFavorites.splice(idx,1);btn.classList.remove('active');toast(t('fav_removed'));}
+  else {userFavorites.push(episodeId);btn.classList.add('active');toast(t('fav_added'));}
   await saveUserData();
 };
 
-function displayFavorites() {
-  const c = document.getElementById('favoritesContent');
-  if (!userFavorites.length) { c.innerHTML = '<p class="txt-muted">Aucun favori. Cliquez ❤️ sur un épisode !</p>'; return; }
-  let html = '', found = false;
-  Object.keys(globalSeries).forEach(name => {
-    Object.keys(globalSeries[name].seasons||{}).forEach(season => {
-      (globalSeries[name].seasons[season]||[]).forEach(ep => {
-        if (userFavorites.some(f => String(f)===String(ep.id))) {
-          found = true;
-          const label = season==='FILM'?`Film ${ep.episode}`:`S${season}E${ep.episode}`;
-          html += `<div class="ep-item">
+function displayFavorites(){
+  const c=document.getElementById('favoritesContent');
+  if (!userFavorites.length){c.innerHTML=`<p class="txt-muted">${t('no_favorites')}</p>`;return;}
+  let html='',found=false;
+  Object.keys(globalSeries).forEach(name=>{
+    Object.keys(globalSeries[name].seasons||{}).forEach(season=>{
+      (globalSeries[name].seasons[season]||[]).forEach(ep=>{
+        if (userFavorites.some(f=>String(f)===String(ep.id))){
+          found=true;
+          const label=season==='FILM'?`${t('film')} ${ep.episode}`:`S${season}E${ep.episode}`;
+          html+=`<div class="ep-item">
             <div class="ep-title">${name} — ${label} <span class="badge badge-lang">${ep.language}</span></div>
             <div class="ep-controls">
-              <button class="btn btn-small" onclick="playFavById(${ep.id})">▶ Regarder</button>
+              <button class="btn btn-small" onclick="playFavById(${ep.id})">${t('watch')}</button>
               <button class="fav-btn active" onclick="toggleFav(${ep.id},this).then(()=>displayFavorites())" title="Retirer">❤️</button>
             </div>
           </div>`;
@@ -854,176 +969,156 @@ function displayFavorites() {
       });
     });
   });
-  c.innerHTML = found ? html : '<p class="txt-muted">Favoris non disponibles.</p>';
+  c.innerHTML=found?html:`<p class="txt-muted">${t('fav_unavailable')}</p>`;
 }
 
-window.playFavById = function(epId) {
-  for (const name in globalSeries) {
-    for (const season in globalSeries[name].seasons||{}) {
-      const ep = (globalSeries[name].seasons[season]||[]).find(e => String(e.id)===String(epId));
-      if (ep) {
-        const lang = ep.language;
-        const eps = globalSeries[name].seasons[season].filter(e => e.language===lang);
-        const idx = eps.findIndex(e => String(e.id)===String(epId));
-        const s = globalSeries[name];
-        document.getElementById('animeHeaderImage').innerHTML = s.image ? `<div class="anime-header"><img src="${s.image}" alt="${name}"></div>` : `<div class="anime-header">🎬</div>`;
-        document.getElementById('playerTitle').textContent = name;
-        showSection('player');
-        setTimeout(() => playEp(name, season, lang, idx), 50);
-        return;
+window.playFavById=function(epId){
+  for (const name in globalSeries){
+    for (const season in globalSeries[name].seasons||{}){
+      const ep=(globalSeries[name].seasons[season]||[]).find(e=>String(e.id)===String(epId));
+      if (ep){
+        const lang=ep.language;
+        const eps=globalSeries[name].seasons[season].filter(e=>e.language===lang);
+        const idx=eps.findIndex(e=>String(e.id)===String(epId));
+        const s=globalSeries[name];
+        document.getElementById('animeHeaderImage').innerHTML=s.image?`<div class="anime-header"><img src="${s.image}" alt="${name}"></div>`:`<div class="anime-header">🎬</div>`;
+        document.getElementById('playerTitle').textContent=name;
+        showSection('player');setTimeout(()=>playEp(name,season,lang,idx),50);return;
       }
     }
   }
 };
 
-// ─── STAFF : SÉRIES ──────────────────────────────────────────────────
-window.addSeries = async function() {
-  if (!isStaff) return;
-  const name = document.getElementById('seriesName').value.trim();
-  const cat = document.getElementById('seriesCategory').value;
-  const age = document.getElementById('seriesAge').value;
-  if (!name) { toast('❌ Entrez un nom'); return; }
-  if (!globalSeries[name]) {
-    globalSeries[name] = { image: currentImageBase64||'', category:cat, age, seasons:{} };
-  } else {
-    if (currentImageBase64) globalSeries[name].image = currentImageBase64;
-    if (cat) globalSeries[name].category = cat;
-    if (age) globalSeries[name].age = age;
-  }
-  await saveGlobalData();
-  updateSeriesSelects(); displayRecent(); displayLibrary();
-  toast(`✅ Série "${name}" créée !`);
-  ['seriesName','seriesCategory','seriesAge','seriesImageFile'].forEach(id => document.getElementById(id).value='');
-  document.getElementById('fileName').textContent = '';
-  document.getElementById('imagePreview').classList.remove('show');
-  currentImageBase64 = null;
+// ── STAFF ────────────────────────────────────────────────────────────
+window.addSeries=async function(){
+  if (!isStaff)return;
+  const name=document.getElementById('seriesName').value.trim();
+  const cat=document.getElementById('seriesCategory').value;
+  const age=document.getElementById('seriesAge').value;
+  if (!name){toast(t('enter_name'));return;}
+  if (!globalSeries[name]) globalSeries[name]={image:currentImageBase64||'',category:cat,age,seasons:{}};
+  else {if(currentImageBase64)globalSeries[name].image=currentImageBase64;if(cat)globalSeries[name].category=cat;if(age)globalSeries[name].age=age;}
+  await saveGlobalData();updateSeriesSelects();displayRecent();displayLibrary();
+  toast(t('series_created',name));
+  ['seriesName','seriesCategory','seriesAge','seriesImageFile'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fileName').textContent='';document.getElementById('imagePreview').classList.remove('show');currentImageBase64=null;
 };
 
-window.deleteSeriesFromManage = async function() {
-  if (!isStaff) return;
-  const name = document.getElementById('manageSelectSeries').value;
-  if (!name) { toast('❌ Sélectionnez une série'); return; }
-  if (confirm(`Supprimer "${name}" et TOUS ses épisodes ?`)) {
-    delete globalSeries[name];
-    await saveGlobalData();
-    updateSeriesSelects(); displayLibrary(); displayRecent();
-    document.getElementById('manageEpisodesList').innerHTML = '';
+window.deleteSeriesFromManage=async function(){
+  if (!isStaff)return;
+  const name=document.getElementById('manageSelectSeries').value;
+  if (!name){toast(t('fill_fields'));return;}
+  if (confirm(t('delete_series_confirm',name))){
+    delete globalSeries[name];await saveGlobalData();updateSeriesSelects();displayLibrary();displayRecent();
+    document.getElementById('manageEpisodesList').innerHTML='';
     document.getElementById('manageSeriesActions').classList.add('hidden');
-    toast('✅ Série supprimée !');
+    toast(t('series_deleted'));
   }
 };
 
-function updateSeriesSelects() {
-  ['selectSeries','manageSelectSeries'].forEach(id => {
-    const sel = document.getElementById(id); if (!sel) return;
-    sel.innerHTML = '<option value="">-- Sélectionnez --</option>';
-    Object.keys(globalSeries).forEach(n => { const o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o); });
+function updateSeriesSelects(){
+  ['selectSeries','manageSelectSeries'].forEach(id=>{
+    const sel=document.getElementById(id);if (!sel)return;
+    sel.innerHTML=`<option value="">--</option>`;
+    Object.keys(globalSeries).forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o);});
   });
 }
 
-window.loadSeasonsForManage = function() {
-  const name = document.getElementById('manageSelectSeries').value;
-  const sel = document.getElementById('manageSelectSeason');
-  const act = document.getElementById('manageSeriesActions');
-  sel.innerHTML='<option value="">-- Sélectionnez --</option>';
-  document.getElementById('manageEpisodesList').innerHTML='';
-  if (!name) { act.classList.add('hidden'); return; }
-  act.classList.remove('hidden');
-  const seasons = globalSeries[name].seasons||{};
-  Object.keys(seasons).filter(k=>k==='FILM').forEach(k=>{const o=document.createElement('option');o.value=k;o.textContent='🎬 Films';sel.appendChild(o);});
-  Object.keys(seasons).filter(k=>!isNaN(k)&&Array.isArray(seasons[k])).sort((a,b)=>parseInt(a)-parseInt(b)).forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=`Saison ${s}`;sel.appendChild(o);});
-  Object.keys(seasons).filter(k=>k.startsWith('MINI-')).sort().forEach(k=>{const o=document.createElement('option');o.value=k;o.textContent=`Mini-saison ${k.replace('MINI-','')}`;sel.appendChild(o);});
+window.loadSeasonsForManage=function(){
+  const name=document.getElementById('manageSelectSeries').value;
+  const sel=document.getElementById('manageSelectSeason');
+  const act=document.getElementById('manageSeriesActions');
+  sel.innerHTML='<option value="">--</option>';document.getElementById('manageEpisodesList').innerHTML='';
+  if (!name){act.classList.add('hidden');return;}act.classList.remove('hidden');
+  const seasons=globalSeries[name].seasons||{};
+  Object.keys(seasons).filter(k=>k==='FILM').forEach(k=>{const o=document.createElement('option');o.value=k;o.textContent=t('films');sel.appendChild(o);});
+  Object.keys(seasons).filter(k=>!isNaN(k)&&Array.isArray(seasons[k])).sort((a,b)=>parseInt(a)-parseInt(b)).forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=`${t('season')} ${s}`;sel.appendChild(o);});
+  Object.keys(seasons).filter(k=>k.startsWith('MINI-')).sort().forEach(k=>{const o=document.createElement('option');o.value=k;o.textContent=`Mini-${k.replace('MINI-','')}`;sel.appendChild(o);});
 };
 
-window.loadEpisodesForManage = function() {
-  const name = document.getElementById('manageSelectSeries').value;
-  const season = document.getElementById('manageSelectSeason').value;
-  const c = document.getElementById('manageEpisodesList');
-  if (!name||!season) { c.innerHTML=''; return; }
-  const eps = (globalSeries[name].seasons||{})[season]||[];
-  if (!eps.length) { c.innerHTML='<p class="txt-muted" style="text-align:center;margin:16px 0">Aucun épisode.</p>'; return; }
-  c.innerHTML = eps.map(ep=>`<div class="ep-item">
-    <div class="ep-title">${season==='FILM'?'Film':'Épisode'} ${ep.episode} <span class="badge badge-lang">${ep.language}</span></div>
-    <div class="ep-controls"><button class="btn btn-danger btn-small" onclick="deleteEpisode('${esc(name)}','${season}',${ep.id})">🗑️ Supprimer</button></div>
+window.loadEpisodesForManage=function(){
+  const name=document.getElementById('manageSelectSeries').value;
+  const season=document.getElementById('manageSelectSeason').value;
+  const c=document.getElementById('manageEpisodesList');
+  if (!name||!season){c.innerHTML='';return;}
+  const eps=(globalSeries[name].seasons||{})[season]||[];
+  if (!eps.length){c.innerHTML=`<p class="txt-muted" style="text-align:center;margin:16px 0">${t('no_episode')}</p>`;return;}
+  c.innerHTML=eps.map(ep=>`<div class="ep-item">
+    <div class="ep-title">${season==='FILM'?t('film'):t('episode')} ${ep.episode} <span class="badge badge-lang">${ep.language}</span></div>
+    <div class="ep-controls"><button class="btn btn-danger btn-small" onclick="deleteEpisode('${esc(name)}','${season}',${ep.id})">🗑️</button></div>
   </div>`).join('');
 };
 
-window.deleteEpisode = async function(seriesName, season, epId) {
-  if (!isStaff||!confirm('Supprimer cet épisode ?')) return;
-  const s = globalSeries[seriesName].seasons;
-  s[season] = s[season].filter(e=>e.id!==epId);
-  if (!s[season].length) delete s[season];
-  await saveGlobalData();
-  loadEpisodesForManage();
-  toast('✅ Épisode supprimé !');
+window.deleteEpisode=async function(seriesName,season,epId){
+  if (!isStaff||!confirm(t('delete_episode_confirm')))return;
+  const s=globalSeries[seriesName].seasons;
+  s[season]=s[season].filter(e=>e.id!==epId);
+  if (!s[season].length)delete s[season];
+  await saveGlobalData();loadEpisodesForManage();toast(t('ep_deleted'));
 };
 
-window.updateContentFields = function() {
-  const t = document.getElementById('contentType').value;
-  document.getElementById('seasonField').style.display = t==='film'?'none':'block';
-  document.getElementById('episodeLabel').textContent = t==='film'?'Numéro du film':'Épisode';
-  if (t==='film') document.getElementById('episodeNumber').value='1';
+window.updateContentFields=function(){
+  const tp=document.getElementById('contentType').value;
+  document.getElementById('seasonField').style.display=tp==='film'?'none':'block';
+  document.getElementById('episodeLabel').textContent=tp==='film'?t('film'):t('episode');
+  if (tp==='film')document.getElementById('episodeNumber').value='1';
 };
 
-window.addEpisode = async function() {
-  if (!isStaff) return;
+window.addEpisode=async function(){
+  if (!isStaff)return;
   const name=document.getElementById('selectSeries').value;
   const type=document.getElementById('contentType').value;
   const season=document.getElementById('seasonNumber').value;
   const episode=document.getElementById('episodeNumber').value;
   const lang=document.getElementById('language').value;
   const url=document.getElementById('videoUrl').value.trim();
-  if (!name||!episode||!url) { toast('❌ Remplissez tous les champs'); return; }
+  if (!name||!episode||!url){toast(t('fill_all'));return;}
   const sk=type==='film'?'FILM':type==='miniseason'?`MINI-${season}`:season;
-  if (!globalSeries[name].seasons[sk]) globalSeries[name].seasons[sk]=[];
+  if (!globalSeries[name].seasons[sk])globalSeries[name].seasons[sk]=[];
   globalSeries[name].seasons[sk].push({episode,language:lang,url,type,id:Date.now()});
-  await saveGlobalData();
-  toast(`✅ Épisode ${episode} ajouté !`);
+  await saveGlobalData();toast(t('ep_added',episode));
   document.getElementById('videoUrl').value='';
-  if (type==='season') document.getElementById('episodeNumber').value=parseInt(episode)+1;
+  if (type==='season')document.getElementById('episodeNumber').value=parseInt(episode)+1;
 };
 
-// ─── CALENDRIER ──────────────────────────────────────────────────────
-window.addCalendarEvent = async function() {
+// ── CALENDRIER ───────────────────────────────────────────────────────
+window.addCalendarEvent=async function(){
   const date=document.getElementById('eventDate').value;
   const title=document.getElementById('eventTitle').value.trim();
-  if (!date||!title) { toast('❌ Date et titre requis'); return; }
+  if (!date||!title){toast(t('date_title_required'));return;}
   calendarEvents.push({id:Date.now(),day:document.getElementById('eventDay').value,date,time:document.getElementById('eventTime').value,title,description:document.getElementById('eventDescription').value.trim()});
   await saveGlobalData();
   ['eventDay','eventDate','eventTime','eventTitle','eventDescription'].forEach(id=>document.getElementById(id).value='');
-  displayStaffEvents(); displayCalendar();
-  toast('✅ Événement ajouté !');
+  displayStaffEvents();displayCalendar();toast(t('event_added'));
 };
 
-window.deleteEvent = async function(id) {
-  if (!confirm('Supprimer cet événement ?')) return;
+window.deleteEvent=async function(id){
+  if (!confirm(t('delete_event_confirm')))return;
   calendarEvents=calendarEvents.filter(e=>e.id!==id);
-  await saveGlobalData();
-  displayStaffEvents(); displayCalendar();
+  await saveGlobalData();displayStaffEvents();displayCalendar();toast(t('event_deleted'));
 };
 
-function fmtDate(d) { return new Date(d).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}); }
+function fmtDate(d){return new Date(d).toLocaleDateString(currentLang==='fr'?'fr-FR':'en-GB',{day:'numeric',month:'long',year:'numeric'});}
 
-function displayStaffEvents() {
-  const c=document.getElementById('staffEventsList'); if (!c) return;
-  if (!calendarEvents.length) { c.innerHTML='<p class="txt-muted" style="text-align:center;padding:20px">Aucun événement.</p>'; return; }
+function displayStaffEvents(){
+  const c=document.getElementById('staffEventsList');if (!c)return;
+  if (!calendarEvents.length){c.innerHTML=`<p class="txt-muted" style="text-align:center;padding:20px">${t('no_events')}</p>`;return;}
   const sorted=[...calendarEvents].sort((a,b)=>new Date(a.date)-new Date(b.date));
   c.innerHTML=sorted.map(ev=>`<div class="event-card">
     <div class="row-between">
       <div><div class="event-title">${ev.title}</div><div class="event-date">${ev.day?ev.day+' — ':''}${fmtDate(ev.date)}${ev.time?' à '+ev.time:''}</div></div>
       <button class="btn btn-danger btn-small" onclick="deleteEvent(${ev.id})">🗑️</button>
-    </div>
-    ${ev.description?`<div class="event-desc">${ev.description}</div>`:''}
+    </div>${ev.description?`<div class="event-desc">${ev.description}</div>`:''}
   </div>`).join('');
 }
 
-function displayCalendar() {
+function displayCalendar(){
   const c=document.getElementById('calendarContent');
-  if (!calendarEvents.length) { c.innerHTML='<p class="txt-muted" style="text-align:center;padding:40px 0">Aucun événement programmé.</p>'; return; }
-  const today=new Date(); today.setHours(0,0,0,0);
+  if (!calendarEvents.length){c.innerHTML=`<p class="txt-muted" style="text-align:center;padding:40px 0">${t('no_events')}</p>`;return;}
+  const today=new Date();today.setHours(0,0,0,0);
   const sorted=[...calendarEvents].sort((a,b)=>new Date(a.date)-new Date(b.date));
   c.innerHTML=sorted.map(ev=>{
-    const d=new Date(ev.date); d.setHours(0,0,0,0);
+    const d=new Date(ev.date);d.setHours(0,0,0,0);
     const cls=d<today?'past':d.getTime()===today.getTime()?'today':'';
     return `<div class="event-card ${cls}">
       <div class="event-title">${ev.title}</div>
@@ -1033,21 +1128,15 @@ function displayCalendar() {
   }).join('');
 }
 
-// ─── ANIMATIONS BOUTONS ──────────────────────────────────────────────
-document.addEventListener('click', function(e) {
-  const btn = e.target.closest('.btn');
-  if (!btn) return;
-  btn.classList.remove('pop');
-  void btn.offsetWidth;
-  btn.classList.add('pop');
-  btn.addEventListener('animationend', () => btn.classList.remove('pop'), {once:true});
-  const rip = document.createElement('span');
-  rip.className = 'btn-ripple';
-  const rect = btn.getBoundingClientRect();
-  rip.style.left = (e.clientX-rect.left)+'px';
-  rip.style.top = (e.clientY-rect.top)+'px';
-  btn.appendChild(rip);
-  rip.addEventListener('animationend', () => rip.remove());
+// ── ANIMATIONS ───────────────────────────────────────────────────────
+document.addEventListener('click',function(e){
+  const btn=e.target.closest('.btn');if (!btn)return;
+  btn.classList.remove('pop');void btn.offsetWidth;btn.classList.add('pop');
+  btn.addEventListener('animationend',()=>btn.classList.remove('pop'),{once:true});
+  const rip=document.createElement('span');rip.className='btn-ripple';
+  const rect=btn.getBoundingClientRect();
+  rip.style.left=(e.clientX-rect.left)+'px';rip.style.top=(e.clientY-rect.top)+'px';
+  btn.appendChild(rip);rip.addEventListener('animationend',()=>rip.remove());
 });
 
 </script>
