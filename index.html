@@ -345,13 +345,82 @@ select option{background:#1a1a3e;color:#fff}
       </div>
 
       <div id="tab-manage" class="staff-panel">
-        <h3>Gérer les séries et épisodes</h3>
-        <div class="form-group"><label>Série</label><select id="manageSelectSeries" onchange="loadSeasonsForManage()"></select></div>
-        <div id="manageSeriesActions" class="hidden" style="margin-bottom:14px">
-          <button class="btn btn-danger btn-small" onclick="deleteSeriesFromManage()">🗑️ Supprimer cette série</button>
+        <h3>🗂️ Gérer les séries et épisodes</h3>
+
+        <!-- Sélection série -->
+        <div class="form-group"><label>Série</label><select id="manageSelectSeries" onchange="loadManageSerie()"></select></div>
+
+        <!-- Actions série -->
+        <div id="manageSeriesActions" class="hidden">
+
+          <!-- Modifier infos série -->
+          <div style="background:var(--glass2);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:14px">
+            <h3 style="margin-bottom:12px">✏️ Modifier la série</h3>
+            <div class="form-group"><label>Nouveau nom</label><input type="text" id="editSeriesName" placeholder="Laisser vide pour ne pas changer"></div>
+            <div class="form-group">
+              <label>Catégorie</label>
+              <select id="editSeriesCategory">
+                <option value="">-- Ne pas changer --</option>
+                <option value="romance">Romance</option><option value="action">Action</option>
+                <option value="isekai">Isekai</option><option value="horror">Horror</option>
+                <option value="comedy">Comédie</option><option value="drama">Drama</option>
+                <option value="fantasy">Fantasy</option><option value="scifi">Sci-Fi</option>
+                <option value="slice">Slice of Life</option><option value="sport">Sport</option>
+                <option value="mecha">Mecha</option><option value="mystery">Mystère</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Âge recommandé</label>
+              <select id="editSeriesAge">
+                <option value="">-- Ne pas changer --</option>
+                <option>Tout public</option><option>7+</option><option>13+</option><option>16+</option><option>18+</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Nouvelle image (optionnel)</label>
+              <input type="file" id="editSeriesImageFile" accept="image/*" style="display:none" onchange="handleEditImageUpload(event)">
+              <label for="editSeriesImageFile" class="file-label">📁 Changer l'image</label>
+              <div id="editFileName" class="txt-muted" style="margin-top:5px;font-size:12px"></div>
+              <img id="editImagePreview" class="img-preview" alt="Aperçu">
+            </div>
+            <div class="row">
+              <button class="btn btn-small" onclick="saveEditSerie()">💾 Sauvegarder</button>
+              <button class="btn btn-danger btn-small" onclick="deleteSeriesFromManage()">🗑️ Supprimer la série</button>
+            </div>
+          </div>
+
+          <!-- Sélection saison -->
+          <div class="form-group"><label>Saison / Type</label><select id="manageSelectSeason" onchange="loadEpisodesForManage()"></select></div>
+
+          <!-- Actions saison -->
+          <div id="manageSeasonActions" class="hidden" style="margin-bottom:12px">
+            <button class="btn btn-danger btn-small" onclick="deleteSeasonFromManage()">🗑️ Supprimer cette saison entière</button>
+          </div>
+
+          <!-- Liste épisodes -->
+          <div id="manageEpisodesList"></div>
         </div>
-        <div class="form-group"><label>Saison</label><select id="manageSelectSeason" onchange="loadEpisodesForManage()"></select></div>
-        <div id="manageEpisodesList"></div>
+      </div>
+
+      <!-- MODAL EDIT EPISODE -->
+      <div id="editEpModal" class="modal hidden">
+        <div class="modal-card">
+          <button class="close-modal" onclick="closeEditEpModal()">×</button>
+          <h2>✏️ Modifier l'épisode</h2>
+          <input type="hidden" id="editEpSeries">
+          <input type="hidden" id="editEpSeason">
+          <input type="hidden" id="editEpId">
+          <div class="form-group"><label>Numéro</label><input type="text" id="editEpNumber" placeholder="Ex: 1"></div>
+          <div class="form-group">
+            <label>Langue</label>
+            <select id="editEpLang">
+              <option value="VOSTFR">VOSTFR</option><option value="VF">VF</option>
+              <option value="VO">VO</option><option value="VOSTA">VOSTA</option>
+            </select>
+          </div>
+          <div class="form-group"><label>URL / iframe</label><textarea id="editEpUrl" rows="4" placeholder="URL ou iframe"></textarea></div>
+          <button class="btn" onclick="saveEditEpisode()">💾 Sauvegarder</button>
+        </div>
       </div>
 
       <div id="tab-calendar" class="staff-panel">
@@ -960,6 +1029,16 @@ window.playFavById=function(epId){
 };
 
 // ── STAFF ─────────────────────────────────────────────────────────────
+let editImageBase64 = null;
+
+window.handleEditImageUpload=function(e){
+  const file=e.target.files[0];if(!file){editImageBase64=null;return;}
+  document.getElementById('editFileName').textContent='📷 '+file.name;
+  const r=new FileReader();
+  r.onload=ev=>{editImageBase64=ev.target.result;const p=document.getElementById('editImagePreview');p.src=ev.target.result;p.classList.add('show');};
+  r.readAsDataURL(file);
+};
+
 window.addSeries=async function(){
   if(!isStaff)return;
   const name=document.getElementById('seriesName').value.trim();
@@ -974,6 +1053,53 @@ window.addSeries=async function(){
   document.getElementById('fileName').textContent='';document.getElementById('imagePreview').classList.remove('show');currentImageBase64=null;
 };
 
+// Charger la série dans le panel gérer
+window.loadManageSerie=function(){
+  const name=document.getElementById('manageSelectSeries').value;
+  const act=document.getElementById('manageSeriesActions');
+  document.getElementById('manageEpisodesList').innerHTML='';
+  document.getElementById('manageSeasonActions').classList.add('hidden');
+  if(!name){act.classList.add('hidden');return;}
+  act.classList.remove('hidden');
+  // Pré-remplir les champs d'édition
+  const s=globalSeries[name];
+  document.getElementById('editSeriesName').value='';
+  document.getElementById('editSeriesCategory').value=s.category||'';
+  document.getElementById('editSeriesAge').value=s.age||'';
+  document.getElementById('editFileName').textContent='';
+  document.getElementById('editImagePreview').classList.remove('show');
+  editImageBase64=null;
+  loadSeasonsForManage();
+};
+
+// Sauvegarder modifications série
+window.saveEditSerie=async function(){
+  if(!isStaff)return;
+  const oldName=document.getElementById('manageSelectSeries').value;
+  if(!oldName){toast('❌ Sélectionnez une série');return;}
+  const newName=(document.getElementById('editSeriesName').value||'').trim();
+  const cat=document.getElementById('editSeriesCategory').value;
+  const age=document.getElementById('editSeriesAge').value;
+  const s=globalSeries[oldName];
+  if(cat) s.category=cat;
+  if(age) s.age=age;
+  if(editImageBase64) s.image=editImageBase64;
+  // Renommer si nouveau nom donné
+  if(newName && newName!==oldName){
+    globalSeries[newName]=s;
+    delete globalSeries[oldName];
+    toast(`✅ Série renommée en "${newName}"`);
+  } else {
+    toast('✅ Série modifiée !');
+  }
+  await saveGlobalData();
+  updateSeriesSelects();displayRecent();displayLibrary();
+  // Re-sélectionner
+  const finalName=newName&&newName!==oldName?newName:oldName;
+  document.getElementById('manageSelectSeries').value=finalName;
+  loadManageSerie();
+};
+
 window.deleteSeriesFromManage=async function(){
   if(!isStaff)return;
   const name=document.getElementById('manageSelectSeries').value;
@@ -981,8 +1107,25 @@ window.deleteSeriesFromManage=async function(){
   if(confirm(`Supprimer "${name}" et TOUS ses épisodes ?`)){
     delete globalSeries[name];await saveGlobalData();updateSeriesSelects();displayLibrary();displayRecent();
     document.getElementById('manageEpisodesList').innerHTML='';
+    document.getElementById('manageSeasonActions').classList.add('hidden');
     document.getElementById('manageSeriesActions').classList.add('hidden');
     toast('✅ Série supprimée !');
+  }
+};
+
+// Supprimer une saison entière
+window.deleteSeasonFromManage=async function(){
+  if(!isStaff)return;
+  const name=document.getElementById('manageSelectSeries').value;
+  const season=document.getElementById('manageSelectSeason').value;
+  if(!name||!season){toast('❌ Sélectionnez une saison');return;}
+  if(confirm(`Supprimer la saison "${season}" et tous ses épisodes ?`)){
+    delete globalSeries[name].seasons[season];
+    await saveGlobalData();
+    loadSeasonsForManage();
+    document.getElementById('manageEpisodesList').innerHTML='';
+    document.getElementById('manageSeasonActions').classList.add('hidden');
+    toast('✅ Saison supprimée !');
   }
 };
 
@@ -996,20 +1139,17 @@ function updateSeriesSelects(){
 
 window.loadSeasonsForManage=function(){
   const name=document.getElementById('manageSelectSeries').value;
-  const sel=document.getElementById('manageSelectSeason');const act=document.getElementById('manageSeriesActions');
-  sel.innerHTML='<option value="">--</option>';document.getElementById('manageEpisodesList').innerHTML='';
-  if(!name){act.classList.add('hidden');return;}act.classList.remove('hidden');
+  const sel=document.getElementById('manageSelectSeason');
+  sel.innerHTML='<option value="">-- Sélectionner --</option>';
+  document.getElementById('manageEpisodesList').innerHTML='';
+  document.getElementById('manageSeasonActions').classList.add('hidden');
+  if(!name)return;
   const seasons=globalSeries[name].seasons||{};
   Object.keys(seasons).forEach(k=>{
     const o=document.createElement('option');o.value=k;
-    if(k==='FILM') o.textContent='🎬 Films';
-    else if(k.startsWith('MINI-')) o.textContent=`Mini-${k.replace('MINI-','')}`;
-    else {
-      const parts=k.split('-');const num=parts[parts.length-1];
-      const typePart=parts.slice(0,-1).join('-');
-      const friendly=typePart.charAt(0).toUpperCase()+typePart.slice(1).toLowerCase().replace(/_/g,' ');
-      o.textContent=isNaN(num)?friendly:`${friendly} ${num}`;
-    }
+    if(k==='FILM')o.textContent='🎬 Films';
+    else if(k.startsWith('MINI-'))o.textContent=`Mini-${k.replace('MINI-','')}`;
+    else{const parts=k.split('-');const num=parts[parts.length-1];const typePart=parts.slice(0,-1).join('-');const friendly=typePart.charAt(0).toUpperCase()+typePart.slice(1).toLowerCase().replace(/_/g,' ');o.textContent=isNaN(num)?friendly:`${friendly} ${num}`;}
     sel.appendChild(o);
   });
 };
@@ -1018,13 +1158,56 @@ window.loadEpisodesForManage=function(){
   const name=document.getElementById('manageSelectSeries').value;
   const season=document.getElementById('manageSelectSeason').value;
   const c=document.getElementById('manageEpisodesList');
-  if(!name||!season){c.innerHTML='';return;}
+  const sa=document.getElementById('manageSeasonActions');
+  if(!name||!season){c.innerHTML='';sa.classList.add('hidden');return;}
+  sa.classList.remove('hidden');
   const eps=(globalSeries[name].seasons||{})[season]||[];
   if(!eps.length){c.innerHTML='<p class="txt-muted" style="text-align:center;margin:16px 0">Aucun épisode.</p>';return;}
   c.innerHTML=eps.map(ep=>`<div class="ep-item">
-    <div class="ep-title">${season==='FILM'?'Film':'Épisode'} ${ep.episode} <span class="badge badge-lang">${ep.language}</span></div>
-    <div class="ep-controls"><button class="btn btn-danger btn-small" onclick="deleteEpisode('${esc(name)}','${season}',${ep.id})">🗑️</button></div>
+    <div style="flex:1;min-width:0">
+      <div class="ep-title">${season==='FILM'?'Film':'Épisode'} ${ep.episode} <span class="badge badge-lang">${ep.language}</span></div>
+    </div>
+    <div class="ep-controls">
+      <button class="btn btn-small btn-teal" onclick="openEditEpisode('${esc(name)}','${season}',${ep.id})">✏️</button>
+      <button class="btn btn-danger btn-small" onclick="deleteEpisode('${esc(name)}','${season}',${ep.id})">🗑️</button>
+    </div>
   </div>`).join('');
+};
+
+// Ouvrir modal d'édition épisode
+window.openEditEpisode=function(seriesName,season,epId){
+  const ep=(globalSeries[seriesName].seasons[season]||[]).find(e=>e.id===epId);
+  if(!ep)return;
+  document.getElementById('editEpSeries').value=seriesName;
+  document.getElementById('editEpSeason').value=season;
+  document.getElementById('editEpId').value=epId;
+  document.getElementById('editEpNumber').value=ep.episode;
+  document.getElementById('editEpLang').value=ep.language;
+  document.getElementById('editEpUrl').value=ep.url;
+  document.getElementById('editEpModal').classList.remove('hidden');
+};
+window.closeEditEpModal=function(){document.getElementById('editEpModal').classList.add('hidden');};
+
+// Sauvegarder modification épisode
+window.saveEditEpisode=async function(){
+  if(!isStaff)return;
+  const seriesName=document.getElementById('editEpSeries').value;
+  const season=document.getElementById('editEpSeason').value;
+  const epId=parseInt(document.getElementById('editEpId').value);
+  const newNum=document.getElementById('editEpNumber').value;
+  const newLang=document.getElementById('editEpLang').value;
+  const newUrl=document.getElementById('editEpUrl').value.trim();
+  if(!newUrl){toast('❌ URL requise');return;}
+  const eps=globalSeries[seriesName].seasons[season];
+  const idx=eps.findIndex(e=>e.id===epId);
+  if(idx===-1){toast('❌ Épisode introuvable');return;}
+  eps[idx].episode=newNum;
+  eps[idx].language=newLang;
+  eps[idx].url=newUrl;
+  await saveGlobalData();
+  closeEditEpModal();
+  loadEpisodesForManage();
+  toast('✅ Épisode modifié !');
 };
 
 window.deleteEpisode=async function(seriesName,season,epId){
