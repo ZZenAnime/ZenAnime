@@ -394,6 +394,13 @@ select option{background:#1a1a3e;color:#fff}
 
           <!-- Actions saison -->
           <div id="manageSeasonActions" class="hidden" style="margin-bottom:12px">
+            <div style="background:var(--glass2);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px">
+              <label style="display:block;margin-bottom:6px;font-weight:700;font-size:13px;color:var(--text2)">✏️ Renommer la saison</label>
+              <div class="row">
+                <input type="text" id="editSeasonName" placeholder="Ex: Saison 2, OAV, Spécial..." style="flex:1;min-width:0">
+                <button class="btn btn-small btn-teal" onclick="renameSeasonFromManage()" style="flex-shrink:0">💾 OK</button>
+              </div>
+            </div>
             <button class="btn btn-danger btn-small" onclick="deleteSeasonFromManage()">🗑️ Supprimer cette saison entière</button>
           </div>
 
@@ -1129,6 +1136,31 @@ window.deleteSeasonFromManage=async function(){
   }
 };
 
+// Renommer une saison
+window.renameSeasonFromManage=async function(){
+  if(!isStaff)return;
+  const name=document.getElementById('manageSelectSeries').value;
+  const oldKey=document.getElementById('manageSelectSeason').value;
+  const newLabel=(document.getElementById('editSeasonName').value||'').trim();
+  if(!name||!oldKey){toast('❌ Sélectionnez une saison');return;}
+  if(!newLabel){toast('❌ Entrez un nom');return;}
+  // Construire la nouvelle clé depuis le label
+  const newKey = newLabel.toUpperCase().replace(/\s+/g,'_').replace(/[^A-Z0-9_\-]/g,'') + '-1';
+  if(newKey===oldKey){toast('⚠️ Même nom');return;}
+  if(globalSeries[name].seasons[newKey]){toast('❌ Ce nom existe déjà');return;}
+  // Déplacer les épisodes
+  globalSeries[name].seasons[newKey]=globalSeries[name].seasons[oldKey];
+  delete globalSeries[name].seasons[oldKey];
+  await saveGlobalData();
+  loadSeasonsForManage();
+  // Re-sélectionner la saison renommée
+  setTimeout(()=>{
+    document.getElementById('manageSelectSeason').value=newKey;
+    loadEpisodesForManage();
+  },50);
+  toast(`✅ Saison renommée en "${newLabel}" !`);
+};
+
 function updateSeriesSelects(){
   ['selectSeries','manageSelectSeries'].forEach(id=>{
     const sel=document.getElementById(id);if(!sel)return;
@@ -1161,6 +1193,10 @@ window.loadEpisodesForManage=function(){
   const sa=document.getElementById('manageSeasonActions');
   if(!name||!season){c.innerHTML='';sa.classList.add('hidden');return;}
   sa.classList.remove('hidden');
+  // Pré-remplir le champ renommer avec le label actuel
+  const sel=document.getElementById('manageSelectSeason');
+  const currentLabel=sel.options[sel.selectedIndex]?.text||'';
+  document.getElementById('editSeasonName').value=currentLabel;
   const eps=(globalSeries[name].seasons||{})[season]||[];
   if(!eps.length){c.innerHTML='<p class="txt-muted" style="text-align:center;margin:16px 0">Aucun épisode.</p>';return;}
   c.innerHTML=eps.map(ep=>`<div class="ep-item">
